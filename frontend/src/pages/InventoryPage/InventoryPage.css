@@ -1,0 +1,81 @@
+.inventory-page {
+    text-align: center;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+  .inventory-container {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+  }
+
+  .inventory-body {
+    height: 100%;
+    padding: 20px;
+    overflow-y: auto;
+  }
+
+  .inventory-table {
+    height: 100%;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .inventory-table th, .inventory-table td {
+    border: 1px solid #ccc;
+  }
+  
+  .inventory-table th {
+    background-color: #f9f9f9;
+    text-align: left;
+  }
+
+  /* Row colors */
+  .red-row {
+    background-color: #ffdddd; /* Light red */
+  }
+
+  .yellow-row {
+    background-color: #eefbcb; /* Light yellow */
+  }
+
+  .green-row {
+    background-color: #ddffdd; /* Light green */
+  }
+
+  input[type="number"] {
+    width: 80px;
+    margin-right: 8px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 500;
+  display: flex;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(38, 37, 44, 0.873);
+  color: red;
+  width: 60%;
+  height: 80%;
+}
