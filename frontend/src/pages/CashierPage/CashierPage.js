@@ -8,7 +8,7 @@ function CashierPage() {
 
     const fetchCashiers = async () => {
         try {
-            const response = await fetch('http://localhost:8081/cashiers');
+            const response = await fetch('https://proj3-t62-backenddeploy-production.up.railway.app/cashiers');
             const data = await response.json();
             setCashiers(data.content);
         } catch (error) {
