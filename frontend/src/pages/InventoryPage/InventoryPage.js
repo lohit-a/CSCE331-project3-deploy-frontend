@@ -73,7 +73,7 @@ function InventoryPage() {
 
   const fetchInventory = async () => {
     try {
-        const response = await fetch('https://proj3-t62-backenddeploy-production.up.railway.app/inventory');
+        const response = await fetch('http://localhost:8081/inventory'); // https://proj3-t62-backenddeploy-production.up.railway.app/
         const data = await response.json();
         setInventory(data);
     } catch (error) {
@@ -91,7 +91,7 @@ function InventoryPage() {
   const handleAddQuantity = (item) => {
     const quantityToAdd = parseFloat(addQuantities[item.itemName]) || 0;
 
-    fetch(`https://proj3-t62-backenddeploy-production.up.railway.app/inventory/add`, {
+    fetch(`http://localhost:8081/inventory/add`, { // https://proj3-t62-backenddeploy-production.up.railway.app/
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

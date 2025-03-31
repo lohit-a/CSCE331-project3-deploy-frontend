@@ -1,3 +1,7 @@
+Team 62 Frontend Code for Development
+
+NOTE: the scrum agenda/minutes and Project Management (backlogs) are in this repo's release
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
