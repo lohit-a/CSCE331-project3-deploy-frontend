@@ -1,0 +1,77 @@
+--------------------------------------------------------
+SPRINT 1 SCRUM MEETINGS
+--------------------------------------------------------
+
+Scrum Meeting 1 for Lo-Tree-Tea
+Prepared by: Lohitaksh (Lohit) Allampalli
+Meeting Date: Wednesday, March 26th, 2025
+
+Attendees: All (Paul Hedman, Jack Williams, David Armijo, Lohit Allampalli)
+
+Agenda:
+    - Determine backend framework (consolidate team research and decide)
+    - Set up React and push to shared repo
+
+Update Since Last Meeting:
+    - Paul found two tutorials using Spring Boot with React that simplified backend a lot -- we will proceed with Spring Boot for backend
+    - Jack and David suggested having separate repos for frontend and backend would be ideal so that code is not accidently convolved
+    - Paul set up React on his local repo and pushed to his own working branch in the frontend repo
+
+Before Next Meeting:
+    - Watch the Contact Manager tutorial and come in with questions or suggestions
+    - Via tutorial, set up Spring Boot backend
+    - Create some custom API calls for fetching Inventory, Employees, and Menu Items
+    - Write React code to dynamically use the information fetched from the APIs to populate frontend 
+
+--------------------------------------------------------
+
+Scrum Meeting 2 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Friday, March 28th 2025
+
+Attendees: All
+
+Agenda:
+    - Discuss questions about Contact Manager tutorial
+    - Have everyone set up local repos with both Spring Boot and React
+    - Test via localhost to see if API calls are working
+
+Update Since Last Meeting:
+    - Paul successfully set up Spring Boot
+    - Paul created API call connection between backend and frontend for Inventory and Cashiers
+    - David did research on how to publicly deploy a Spring Boot application (not directly supported in free platforms)
+    - David is working on Docker containerization for Spring Boot deployment
+    - Jack understood the tutorial and began API calls for Order Services (menu selection screen)
+    - Lohit watched tutorial and drafted development of managers reports and login screen
+
+Before Next Meeting:
+    - Deploy frontend
+    - Deploy backend
+    - Complete API call for menu items
+
+--------------------------------------------------------
+
+Scrum Meeting 3 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Sunday, March 30, 2025
+
+Attendees: All
+
+Agenda: 
+    - Push most recent functional code to deployment repos for frontend and backend
+    - Task assignment for writing materials and next sprint 
+
+Update Since Last Meeting:
+    - David made major progress on Docker file for Spring Boot deployment
+    - He had some issues but he and Lohit debugged his application.properties file to include the correct DB driver information
+    - Backend successfully deployed in meeting
+    - Lohit deployed the frontend as a static website via Render using the deployed repo made by Jack
+    - Jack made an API call for fetching all menu items, waiting to push to deployment repo until all API calls are finished
+    - Paul added color indicators and styling to the Manager Inventory Page
+
+Before Next Meeting:
+    - Finish API calls for Order Selection and be able to make orders in frontend website
+    - Create a login option to authenticate cashiers vs managers, while still allowing customers to order
+    - Define API calls for Menu Customization Services and connect to the frontend for managers
+
+--------------------------------------------------------
