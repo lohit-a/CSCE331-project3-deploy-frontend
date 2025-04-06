@@ -1,12 +1,17 @@
 .inventory-page {
     text-align: center;
-    background-color: white;
+    background: linear-gradient(
+      to top,
+      rgb(95, 128, 196),
+      rgb(148, 173, 221),
+      rgb(173, 198, 243)
+    );
     padding: 0;
     margin: 0;
     height: 100%;
     width: 100%;
     display: flex;
-    overflow: hidden;
+    overflow: auto;
 }
 
   .inventory-container {
@@ -14,40 +19,92 @@
     height: 100%;
     width: 100%;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+  }
+
+
+  .inventory-header {
+    display: flex;
+    align-items: center;  /* vertical centering */
+    justify-content: center; /* or center/left/right */
+    padding: 20px;
+    
   }
 
   .inventory-body {
     height: 100%;
-    padding: 20px;
+    padding: 0px;
     overflow-y: auto;
+    flex: 1;
   }
 
   .inventory-table {
     height: 100%;
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0; 
+    table-layout: fixed;
+    
+    padding:0px 20px 20px 20px;
+    border-radius: 12px;
+    
+    
   }
 
-  .inventory-table th, .inventory-table td {
+
+  .inventory-table td {
     border: 1px solid #ccc;
+    
   }
   
+
+
   .inventory-table th {
-    background-color: #f9f9f9;
-    text-align: left;
+    background-color: #e2e2e2;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    height: 48px;
+    border-top: 2px solid #4d4d4d;
+    border-bottom: 2px solid #4d4d4d;
+    border-left: 1px solid #4d4d4d;
+    border-right: 1px solid #4d4d4d;
+    
   }
+  
+  .inventory-table th:first-child { /*mimics border-collapse on table*/
+    border-left: 2px solid #4d4d4d;
+  }
+  
+  .inventory-table th:last-child {
+    border-right: 2px solid #4d4d4d;
+  }
+
+  .inventory-table td:last-child {
+    border-right: 1px solid #4d4d4d;
+    border-top: 1px solid #4d4d4d;
+    border-bottom: 1px solid #4d4d4d;
+    border-left: 1px solid #4d4d4d;
+    background-color: #e2e2e2;
+  }
+
+
 
   /* Row colors */
   .red-row {
-    background-color: #ffdddd; /* Light red */
+    background-color: #f44336; /* Light red */
   }
 
   .yellow-row {
-    background-color: #eefbcb; /* Light yellow */
+    background-color: #faf1a2; /* Light yellow */
   }
 
   .green-row {
-    background-color: #ddffdd; /* Light green */
+    background-color: #4caf50; /* Light green */
   }
 
   input[type="number"] {
@@ -55,27 +112,46 @@
     margin-right: 8px;
   }
 
-  button {
+  .btn {
+    padding: 12px 12px;
+    font-size: 0.9rem;
+    border: 2px solid black;
+    border-width: 2px;
+    border-radius: 6px;
     cursor: pointer;
+    margin: 2px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    color: white;
+    width: 30%;
+  }
+  
+
+  .btn:hover {
+    opacity: 0.95;
+  }
+  
+
+  .btn-add {
+    background-color: #4caf50;
+  }
+  
+  .btn-add:hover {
+    background-color: #43a047;
+  }
+  
+  .btn-edit {
+    background-color: #2196f3;
+  }
+  
+  .btn-edit:hover {
+    background-color: #1976d2;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+  }
+  
+  .btn-delete:hover {
+    background-color: #d32f2f;
   }
 
-.modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  justify-content: center;
-  align-items: center;
-  z-index: 500;
-  display: flex;
-}
-
-.modal-content {
-  display: flex;
-  flex-direction: column;
-  background-color: rgba(38, 37, 44, 0.873);
-  color: red;
-  width: 60%;
-  height: 80%;
-}
