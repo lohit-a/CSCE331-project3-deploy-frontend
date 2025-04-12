@@ -1,12 +1,12 @@
-import './HomePage.css';
+import './LogInpage.css';
 
-function HomePage() {
+function LogInPage() {
     return (
         <div className="home-page">
             <button onClick={() => {
                 window.location.href = "http://localhost:8081/oauth2/authorization/google";
                 }}>
-                Login with Google
+                Login with google
                 </button>
         </div>
         
@@ -14,4 +14,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default LogInPage;

@@ -1,20 +1,22 @@
-import {useState} from 'react'
+import {useState, useContext, useEffect} from 'react'
 import logo from './logo.svg';
 import './App.css';
 import CashierPage from './pages/CashierPage/CashierPage';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
 import {Routes, Route, useNavigate} from 'react-router-dom';
+import {UserContext, UserProvider} from './contexts/UserContext'
 
-function App() {
+function AppContent() {
+  const {userRole} = useContext(UserContext)
   const [showExtraButtons, setExtraButtons] = useState(true)
+  const [allowedRoutes, setAllowedRoutes] = useState([])
 
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState("manager");
 
   const renderNavButtons = () => {
     if (!showExtraButtons) return <p className="muted-text">Extra buttons hidden</p>;
-
+    console.log(userRole)
     switch (userRole) {
       case "cashier":
         return (
@@ -22,7 +24,7 @@ function App() {
             <button onClick={() => navigate("/")}>Order</button>
             <button onClick={() => navigate("/cashierpage")}>Cashier</button>
             <button onClick={() => alert("Settings Page")}>Cashier</button>
-          </>
+          </>  
         );
       case "manager":
         return (
@@ -45,6 +47,35 @@ function App() {
     }
   };
 
+  const getRoutePermissions = () => {
+    if (!userRole ) return []
+    switch (userRole) {
+      case "cashier":
+        return [
+          {path: '/cashierpage', element: <CashierPage />},
+          {path: '/', element: <HomePage />}
+        ];
+      case "manager":
+        return [
+          {path: '/cashierpage', element: <CashierPage />},
+          {path: '/inventory', element: <InventoryPage />},
+          {path: '/', element: <HomePage />}
+        ];
+      case "customer":
+        return [
+          {path: '/', element: <HomePage />},
+          {path: '/inventory', element: <HomePage />},
+        ];
+      default:
+        return null;
+    }
+  }
+
+  useEffect(() => {
+    const routes = getRoutePermissions();
+    setAllowedRoutes(routes);
+  }, [userRole])
+
   return (
     <div className="App">
       <div className="nav-bar">
@@ -62,13 +93,20 @@ function App() {
       </div>
       <div className="body">
         <Routes>
-          <Route path="/cashierpage" element={<CashierPage />}/>
-          <Route path="/inventory" element={<InventoryPage />}/>
-          <Route path="" element={<HomePage />}/>
+          {allowedRoutes.map((route) => (
+            <Route path={route.path} element={route.element} />
+          ))}
+          <Route path="*" element={<HomePage />} />          
         </Routes>
       </div>
     </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
+  ); 
+}

@@ -8,7 +8,17 @@ function CashierPage() {
 
     const fetchCashiers = async () => {
         try {
-            const response = await fetch('http://localhost:8081/cashiers');
+            console.log("HELLO1!\n\n");
+            const response = await fetch('http://localhost:8081/cashiers', {
+                method: 'GET',
+                redirect: "follow",
+                credentials: 'include' 
+              }).then((response) => response);
+              console.log("HELLO2!\n\n");
+              console.log(response);
+              if(response.redirected) {
+                document.location = response.url;
+            }
             const data = await response.json();
             setCashiers(data.content);
         } catch (error) {
@@ -18,7 +28,7 @@ function CashierPage() {
 
     useEffect(() => {
         fetchCashiers();
-        console.log(cashiers)
+        //console.log(cashiers)
     }, [])
 
 

@@ -2,6 +2,7 @@ import './InventoryPage.css';
 import InputField from '../../components/InputField/InputField';
 import InventoryModal from '../../components/InventoryModal/InventoryModal';
 import React, { useEffect, useState } from 'react';
+import { SERVER_URL } from "../../constant";
 
 
 
@@ -19,13 +20,27 @@ function InventoryPage() {
 
   const fetchInventory = async () => {
     try {
-        const response = await fetch('http://localhost:8081/inventory');
-        const data = await response.json();
-        setInventory(data);
+      const response = await fetch(SERVER_URL + '/inventory', {
+        method: 'GET',
+        
+        credentials: 'include' 
+      }).then((response => response));
+  
+      
+      if (response.redirected) {
+        window.location.href = response.url; // see #4 below
+        return;
+      }
+  
+      
+      const data = await response.json();
+      console.log(data);
+      setInventory(data);
+  
     } catch (error) {
-        console.error('Error fetching inventory:', error);
+      console.error('Error fetching inventory:', error);
     }
-};
+  };
 
   const handleInputChange = (itemName, event) => {
     setAddQuantities((prev) => ({
@@ -40,7 +55,7 @@ function InventoryPage() {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${item.itemName}"?`);
     if (!confirmDelete) return;
   
-    fetch(`http://localhost:8081/inventory/${item.inventoryItemId}`, {
+    fetch(SERVER_URL + `/inventory/${item.inventoryItemId}`, {
       method: 'DELETE',
     })
       .then((res) => {
