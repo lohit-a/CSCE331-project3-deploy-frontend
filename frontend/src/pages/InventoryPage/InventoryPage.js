@@ -1,70 +1,16 @@
 import './InventoryPage.css';
 import InputField from '../../components/InputField/InputField';
+import InventoryModal from '../../components/InventoryModal/InventoryModal';
 import React, { useEffect, useState } from 'react';
 
-const InventoryModal = ({handleSave, isOpen, setOpenModal, item}) => {
-  
-  console.log(item)
-  const [formData, setFormData] = useState({});
 
-  useEffect(() => {
-    if (item) {
-      setFormData(item); // pre-fill formData when item is passed in
-    }
-  }, []); 
-  
-  if(!isOpen) return null;
-  
-
-
-
-
-
-  const onInputChange = (field, event) => {
-    const value = event.target.value;
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-
-
-
-
-  return (
-    <div className='modal'>
-      <div className='modal-content'>
-        <h1>{item.itemName} </h1>
-        <div className='modal-content-body'>
-        {Object.entries(item).map(([key, value]) => (
-          key !== 'inventoryItemId' && key !== 'itemName' && (
-            <InputField
-              key={key}
-              itemName={key}
-              type={typeof value === 'number' ? 'number' : 'text'}
-              value={formData[key]}
-              onChange={onInputChange}
-              text={key}
-            />
-          )
-        ))}
-        
-        <button onClick={() => setOpenModal(false)}>
-            CLOSE
-        </button>
-        </div>
-      </div>
-    </div>
-  )
-
-}
 
 function InventoryPage() {
   const [inventory, setInventory] = useState([]);
   const [addQuantities, setAddQuantities] = useState({});
   const [openModal, setOpenModal] = useState(false);
   const [editItem, setEditItem] = useState();
+  const [modalMode, setModalMode] = useState('add');
   
 
   useEffect(() => {
@@ -88,47 +34,32 @@ function InventoryPage() {
     }));
   };
 
-  const handleAddQuantity = (item) => {
-    const quantityToAdd = parseFloat(addQuantities[item.itemName]) || 0;
+  
 
-    fetch(`http://localhost:8081/inventory/add`, { // https://proj3-t62-backenddeploy-production.up.railway.app/
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        itemName: item.itemName,
-        amountToAdd: quantityToAdd,
-      }),
+  const handleDelete = (item) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${item.itemName}"?`);
+    if (!confirmDelete) return;
+  
+    fetch(`http://localhost:8081/inventory/${item.inventoryItemId}`, {
+      method: 'DELETE',
     })
       .then((res) => {
         if (!res.ok) {
-          throw new Error('Failed to update quantity');
+          throw new Error('Failed to delete item');
         }
-        return res.json();
-      })
-      .then((updatedItem) => {
-        // Replace updated item in the content array
-        setInventory((prev) => ({
-          ...prev,
-          content: prev.content.map((invItem) =>
-            invItem.itemName === updatedItem.itemName ? updatedItem : invItem
-          ),
-        }));
-
-        setAddQuantities((prev) => ({
-          ...prev,
-          [item.itemName]: '',
-        }));
+        // Remove item from local state
+        setInventory((prev) =>
+          prev.filter((invItem) => invItem.inventoryItemId !== item.inventoryItemId)
+        );
       })
       .catch((error) => {
-        console.error('Error updating quantity:', error);
+        console.error('Error deleting item:', error);
+        alert('Failed to delete item.');
       });
   };
 
-  const handleDelete = (item) => {
-    setOpenModal(false)
-  };
-
   const handleSave = (item) => {
+    fetchInventory();
   };
 
   return (
@@ -138,26 +69,27 @@ function InventoryPage() {
       setOpenModal={setOpenModal}
       handleSave={handleSave}
       item={editItem}
+      mode={modalMode}
     />
       <div className="inventory-container">
         <div className='inventory-header'>
-          <h1>Boba Store Inventory</h1>
+          <h1>Manage Inventory</h1>
         </div>
         <div className='inventory-body'>
           <table className="inventory-table">
             <thead>
               <tr>
-                <th>Item Name</th>
-                <th>Desired Qty</th>
+                <th style={{ width: "40px" }}>#</th>
+                <th >Item Name</th>
+                <th >Desired Qty</th>
                 <th>Stored Qty</th>
                 <th>Unit</th>
                 <th>Cost</th>
-                <th>Add Quantity</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {inventory.map((item) => {
+              {inventory.map((item, index) => {
                 const ratio = item.storedQuantity / item.desiredQuantity;
                 let rowClass = '';
                 if (ratio < 0.2) {
@@ -170,41 +102,56 @@ function InventoryPage() {
 
                 return (
                   <tr key={item.inventoryItemId} className={rowClass}>
+                    <td>{index + 1}</td> {/* ✅ Show the row number, starting from 1 */}
                     <td>{item.itemName}</td>
                     <td>{item.desiredQuantity}</td>
                     <td>{item.storedQuantity}</td>
                     <td>{item.unit}</td>
                     <td>{item.cost}</td>
+                    
                     <td>
-                      <input
-                        type="number"
-                        step="any"
-                        value={addQuantities[item.itemName] || ''}
-                        onChange={(e) => handleInputChange(item.itemName, e)}
-                      />
-                      <button onClick={() => handleAddQuantity(item)}>
-                        Add
-                      </button>
-                    </td>
-                    <td>
-                      <button onClick={() => handleDelete(item)}>
-                        Delete
-                      </button>
-                      <button 
-                      onClick={() => {
-                        setEditItem(item);
-                        setOpenModal(true);
-                      }}>
-                        Edit
-                      </button>
+                    <div>
+                    <button
+                    className="btn btn-add"
+                    onClick={() => {
+                      setEditItem(item);
+                      setOpenModal(true);
+                      setModalMode('add');
+                    }}
+                  >
+                    Add
+                  </button>
+
+                  <button
+                    className="btn btn-edit"
+                    onClick={() => {
+                      setEditItem(item);
+                      setOpenModal(true);
+                      setModalMode('edit');
+                    }}
+                  >
+                    Edit
+                  </button>
+
+                  <button
+                    className="btn btn-delete"
+                    onClick={() => handleDelete(item)}
+                  >
+                    Delete
+                  </button>
+                    </div>
+                    
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          
+          
         </div>
       </div>
+      
     </div>
   );
 }
