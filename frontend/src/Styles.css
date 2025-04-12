@@ -1,4 +1,7 @@
 :root{
     --dark: #364c72;
-    --darkNav: #2f60b4;
+    --darkNav: #2f60b4; 
+    --buttonSelect: #5F8150; /*use this color for when a button is currently active*/
+    --backgroundColor: rgba(35, 166, 210, 0.416); /*use this for the background of a page. (See cashier ordering page)*/
+    
 }
