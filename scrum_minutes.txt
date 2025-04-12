@@ -1,4 +1,60 @@
 --------------------------------------------------------
+SPRINT 2 SCRUM MEETINGS
+--------------------------------------------------------
+
+Scrum Meeting 1 for Lo-Tree-Tea
+Prepared by: Lohitaksh (Lohit) Allampalli
+Meeting Date: Monday, April 7th, 2025
+
+Attendees: All (Paul Hedman, Jack Williams, David Armijo, Lohit Allampalli)
+
+Agenda:
+    - Check if Cashier Page is made and API calls can fetch all menu items
+    - Check in with Paul about OAuth2
+
+Update Since Last Meeting:
+    - Paul has changed logging into via Cashier or Manager to be based on an email instead of pins. Uses OAuth2 so it is much more secure 
+    - Jack has finished making the Cashier page -- he can fetch the needed items but an order cannot yet be made (backend API calls to POST)
+    - Jack has added translate API to the kiosk page
+    - Paul has fully styled the Inventory management page -- task complete
+
+Before Next Meeting:
+    - Jack to finish the Kiosk UI so that it is more stylized, accessible, and better fits the Translate API
+    - Paul to finish OAuth2
+    - David to begin API calls for POST to orders so that an order can be made from the frontend
+    - Jack to begin using the Weather API to display basic weather info
+
+--------------------------------------------------------
+
+Scrum Meeting 2 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Friday, April 11th, 2025
+
+Attendees: All
+
+Agenda:
+    - Make deployment process more robust and easy
+    - Determine task re-assignment for remaining tasks
+
+Update Since Last Meeting:
+    - We will now have one file that stores a global constant for the URL of the frontend or backend so that we just change one place for deployment
+    - Paul is almost done with OAuth2, just needs to prevent customers and cashiers from accessing manager pages
+    - David finished backend POST calls -- orders can now be made via frontend
+    - Jack has added Weather API
+    - David is now assigned to making the employee management UI page
+
+Before Next Meeting:
+    - Lohit to begin/finish Manager Menu Customization UI
+    - David to begin Employee management UI
+    - Paul to finish OAuth2
+
+--------------------------------------------------------
+
+
+
+--------------------------------------------------------
+
+--------------------------------------------------------
 SPRINT 1 SCRUM MEETINGS
 --------------------------------------------------------
 
