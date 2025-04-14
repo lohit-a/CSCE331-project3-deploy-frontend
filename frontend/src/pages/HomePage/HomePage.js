@@ -61,9 +61,6 @@ function HomePage() {
         return res.json();
       })
       .then((data) => {
-        data.forEach((item, i) => {
-          if (!item.item_name) console.warn(`Missing item_name at index ${i}:`, item);
-        });
         setMenuItems(data);
         const uniqueCats = [...new Set(data.map((item) => item.category))];
         setCategories(uniqueCats);
