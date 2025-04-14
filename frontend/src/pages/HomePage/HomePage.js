@@ -61,6 +61,9 @@ function HomePage() {
         return res.json();
       })
       .then((data) => {
+        data.forEach((item, i) => {
+          if (!item.itemName) console.warn(`Missing item_name at index ${i}:`, item);
+        });
         setMenuItems(data);
         const uniqueCats = [...new Set(data.map((item) => item.category))];
         setCategories(uniqueCats);
@@ -74,10 +77,10 @@ function HomePage() {
 
   const handleAddToCart = (item) => {
     setCart((prevCart) => {
-      const exist = prevCart.find((c) => c.menu_item_id === item.menu_item_id);
+      const exist = prevCart.find((c) => c.menuItemId === item.menuItemId);
       if (exist) {
         return prevCart.map((c) =>
-          c.menu_item_id === item.menu_item_id
+          c.menuItemId === item.menuItemId
             ? { ...c, quantity: c.quantity + 1 }
             : c
         );
@@ -89,7 +92,7 @@ function HomePage() {
   const incrementItem = (id) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.menu_item_id === id ? { ...item, quantity: item.quantity + 1 } : item
+        item.menuItemId === id ? { ...item, quantity: item.quantity + 1 } : item
       )
     );
   };
@@ -98,7 +101,7 @@ function HomePage() {
     setCart((prevCart) =>
       prevCart
         .map((item) => {
-          if (item.menu_item_id === id) {
+          if (item.menuItemId === id) {
             if (item.quantity > 1) return { ...item, quantity: item.quantity - 1 };
             else return null;
           }
@@ -152,7 +155,7 @@ function HomePage() {
               <div className="grid-container">
                 {filteredItems.map((item) => (
                   <div
-                    key={item.menu_item_id}
+                    key={item.menuItemId}
                     className="grid-item"
                     onClick={() => handleAddToCart(item)}
                   >
@@ -186,12 +189,12 @@ function HomePage() {
           <h2>Cart</h2>
           {cart.length === 0 && <p>No items yet.</p>}
           {cart.map((c) => (
-            <div key={c.menu_item_id} className="cart-item">
+            <div key={c.menuItemId} className="cart-item">
               <span>{c.itemName.replace(/_/g, " ")}</span>
               <div className="quantity-controls">
-                <button onClick={() => decrementItem(c.menu_item_id)}>-</button>
+                <button onClick={() => decrementItem(c.menuItemId)}>-</button>
                 <span>{c.quantity}</span>
-                <button onClick={() => incrementItem(c.menu_item_id)}>+</button>
+                <button onClick={() => incrementItem(c.menuItemId)}>+</button>
               </div>
             </div>
           ))}
