@@ -1,0 +1,142 @@
+.menu-page {
+    text-align: center;
+    background: linear-gradient(
+      to top,
+      rgb(95, 128, 196),
+      rgb(148, 173, 221),
+      rgb(173, 198, 243)
+    );
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: auto;
+}
+
+  .menu-container {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+  }
+
+
+  .menu-header {
+    display: flex;
+    align-items: center;  /* vertical centering */
+    justify-content: center; /* or center/left/right */
+    padding: 20px;
+    
+  }
+
+  .menu-body {
+    height: 100%;
+    padding: 0px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .menu-table {
+    height: 100%;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0; 
+    table-layout: fixed;
+    
+    padding:0px 20px 20px 20px;
+    border-radius: 12px;
+    
+    
+  }
+
+
+  .menu-table td {
+    border: 1px solid #ccc;
+    
+  }
+  
+
+
+  .menu-table th {
+    background-color: #e2e2e2;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    height: 48px;
+    border-top: 2px solid #4d4d4d;
+    border-bottom: 2px solid #4d4d4d;
+    border-left: 1px solid #4d4d4d;
+    border-right: 1px solid #4d4d4d;
+    
+  }
+  
+  .menu-table th:first-child { /*mimics border-collapse on table*/
+    border-left: 2px solid #4d4d4d;
+  }
+  
+  .menu-table th:last-child {
+    border-right: 2px solid #4d4d4d;
+  }
+
+  .menu-table td:last-child {
+    border-right: 1px solid #4d4d4d;
+    border-top: 1px solid #4d4d4d;
+    border-bottom: 1px solid #4d4d4d;
+    border-left: 1px solid #4d4d4d;
+    background-color: #e2e2e2;
+  }
+
+  input[type="number"] {
+    width: 80px;
+    margin-right: 8px;
+  }
+
+  .btn {
+    padding: 12px 12px;
+    font-size: 0.9rem;
+    border: 2px solid black;
+    border-width: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin: 2px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    color: white;
+    width: 30%;
+  }
+  
+
+  .btn:hover {
+    opacity: 0.95;
+  }
+  
+
+  .btn-add {
+    background-color: #4caf50;
+  }
+  
+  .btn-add:hover {
+    background-color: #43a047;
+  }
+  
+  .btn-edit {
+    background-color: #2196f3;
+  }
+  
+  .btn-edit:hover {
+    background-color: #1976d2;
+  }
+  
+  .btn-delete {
+    background-color: #f44336;
+  }
+  
+  .btn-delete:hover {
+    background-color: #d32f2f;
+  }
+

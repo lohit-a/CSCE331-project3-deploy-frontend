@@ -21,6 +21,12 @@
   flex-direction: row;
 }
 
+  iframe.skiptranslate {
+    /*display: none !important;*/
+  }
+
+
+
 /* Banner styling */
 .banner {
   position: absolute; /* Remove it from the normal flow */
@@ -97,4 +103,10 @@
   width: 100%;
   /* Optionally add top margin if you want extra space below the banner */
   margin-top: 4rem;
+}
+
+.skiptranslate > iframe { 
+  height: 0 !important;
+  border-style: none;
+  box-shadow: none;
 }

@@ -4,6 +4,7 @@ import './App.css';
 import CashierPage from './pages/CashierPage/CashierPage';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
+import MenuPage from './pages/MenuPage/MenuPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <button onClick={() => navigate("/cashierpage")}>Cashier</button>
             <button onClick={() => navigate("/inventory")}>Inventory</button>
             <button onClick={() => alert("Manager Page")}>Manager</button>
+            <button onClick={() => navigate("/menu_items")}>Menu Customization</button>
           </>
         );
       case "customer":
@@ -46,7 +48,7 @@ function App() {
   return (
     <div className="App">
       {/* Banner moved to the top of the DOM */}
-      <div className="banner">LoTree Tea</div>
+      {/* <div className="banner">LoTree Tea</div> */}
       
       <div className="nav-bar">
         {showExtraButtons ? (
@@ -66,6 +68,7 @@ function App() {
           <Route path="/cashierpage" element={<CashierPage />} />
           <Route path="/inventory" element={<InventoryPage />} />
           <Route path="" element={<HomePage />} />
+          <Route path="/menu_items" element={<MenuPage />} />
         </Routes>
       </div>
     </div>
