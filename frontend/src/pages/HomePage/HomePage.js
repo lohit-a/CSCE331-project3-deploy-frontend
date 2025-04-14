@@ -156,8 +156,8 @@ function HomePage() {
                     className="grid-item"
                     onClick={() => handleAddToCart(item)}
                   >
-                    <img src={bobaImage} alt={item.item_name} />
-                    <p>{item.item_name.replace(/_/g, " ")}</p>
+                    <img src={bobaImage} alt={item.itemName} />
+                    <p>{item.itemName.replace(/_/g, " ")}</p>
                     <p>${item.price.toFixed(2)}</p>
                   </div>
                 ))}
@@ -187,7 +187,7 @@ function HomePage() {
           {cart.length === 0 && <p>No items yet.</p>}
           {cart.map((c) => (
             <div key={c.menu_item_id} className="cart-item">
-              <span>{c.item_name.replace(/_/g, " ")}</span>
+              <span>{c.itemName.replace(/_/g, " ")}</span>
               <div className="quantity-controls">
                 <button onClick={() => decrementItem(c.menu_item_id)}>-</button>
                 <span>{c.quantity}</span>
