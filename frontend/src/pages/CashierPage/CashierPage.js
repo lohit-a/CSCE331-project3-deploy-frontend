@@ -35,10 +35,10 @@ function HomePage() {
 
   const handleAddToCart = (item) => {
     setCart((prevCart) => {
-      const existing = prevCart.find(c => c.menu_item_id === item.menu_item_id);
+      const existing = prevCart.find(c => c.menuItemId === item.menuItemId);
       if (existing) {
         return prevCart.map((c) =>
-          c.menu_item_id === item.menu_item_id
+          c.menuItemId === item.menuItemId
             ? { ...c, quantity: c.quantity + 1 }
             : c
         );
@@ -48,21 +48,21 @@ function HomePage() {
     });
   };
 
-  const incrementItem = (menu_item_id) => {
+  const incrementItem = (menuItemId) => {
     setCart((prevCart) =>
       prevCart.map((item) =>
-        item.menu_item_id === menu_item_id
+        item.menuItemId === menuItemId
           ? { ...item, quantity: item.quantity + 1 }
           : item
       )
     );
   };
 
-  const decrementItem = (menu_item_id) => {
+  const decrementItem = (menuItemId) => {
     setCart((prevCart) =>
       prevCart
         .map((item) => {
-          if (item.menu_item_id === menu_item_id) {
+          if (item.menuItemId === menuItemId) {
             if (item.quantity > 1) {
               return { ...item, quantity: item.quantity - 1 };
             } else {
@@ -112,12 +112,12 @@ function HomePage() {
             <div className="grid-container">
               {filteredItems.map((item) => (
                 <div
-                  key={item.menu_item_id}
+                  key={item.menuItemId}
                   className="grid-item"
                   onClick={() => handleAddToCart(item)}
                 >
-                  <img src={bobaImage} alt={item.item_name} />
-                  <p>{item.item_name.replace(/_/g, ' ')}</p>
+                  <img src={bobaImage} alt={item.itemName} />
+                  <p>{item.itemName.replace(/_/g, ' ')}</p>
                   <p>${item.price.toFixed(2)}</p>
                 </div>
               ))}
@@ -132,12 +132,12 @@ function HomePage() {
         {cart.length === 0 && <p>No items yet.</p>}
 
         {cart.map((c) => (
-          <div key={c.menu_item_id} className="cart-item">
-            <span>{c.item_name.replace(/_/g, ' ')}</span>
+          <div key={c.menuItemId} className="cart-item">
+            <span>{c.itemName.replace(/_/g, ' ')}</span>
             <div className="quantity-controls">
-              <button onClick={() => decrementItem(c.menu_item_id)}>-</button>
+              <button onClick={() => decrementItem(c.menuItemId)}>-</button>
               <span>{c.quantity}</span>
-              <button onClick={() => incrementItem(c.menu_item_id)}>+</button>
+              <button onClick={() => incrementItem(c.menuItemId)}>+</button>
             </div>
           </div>
         ))}
