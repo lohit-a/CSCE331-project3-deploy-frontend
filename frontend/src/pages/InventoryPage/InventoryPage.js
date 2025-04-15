@@ -19,7 +19,7 @@ function InventoryPage() {
 
   const fetchInventory = async () => {
     try {
-        const response = await fetch('http://localhost:8081/inventory'); // https://proj3-t62-backenddeploy-production.up.railway.app/
+        const response = await fetch('https://proj3-t62-backenddeploy-production.up.railway.app/inventory'); // https://proj3-t62-backenddeploy-production.up.railway.app/
         const data = await response.json();
         setInventory(data);
     } catch (error) {
@@ -40,7 +40,7 @@ function InventoryPage() {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${item.itemName}"?`);
     if (!confirmDelete) return;
   
-    fetch(`http://localhost:8081/inventory/${item.inventoryItemId}`, {
+    fetch(`https://proj3-t62-backenddeploy-production.up.railway.app/inventory/${item.inventoryItemId}`, {
       method: 'DELETE',
     })
       .then((res) => {
