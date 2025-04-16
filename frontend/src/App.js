@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
 // import MenuPage from './pages/MenuPage/MenuPage';
 import { Routes, Route, useNavigate } from 'react-router-dom';
+import Weather from './components/Weather'; // Import the Weather component
 
 function App() {
   const [showExtraButtons, setExtraButtons] = useState(true);
@@ -13,7 +14,8 @@ function App() {
   const navigate = useNavigate();
 
   const renderNavButtons = () => {
-    if (!showExtraButtons) return <p className="muted-text">Extra buttons hidden</p>;
+    if (!showExtraButtons)
+      return <p className="muted-text">Extra buttons hidden</p>;
     switch (userRole) {
       case "cashier":
         return (
@@ -61,6 +63,8 @@ function App() {
         <button onClick={() => setExtraButtons(!showExtraButtons)}>
           Show Extra Buttons
         </button>
+        {/* Weather component added to the navigation bar */}
+        <Weather />
       </div>
       
       <div className="body">
