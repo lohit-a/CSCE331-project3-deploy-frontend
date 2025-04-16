@@ -46,7 +46,7 @@ const InventoryModal = ({handleSave, isOpen, setOpenModal, item = null, mode = '
         };
         const url =
       mode === 'edit'
-        ? `https://proj3-t62-backenddeploy-production.up.railway.app/${item.inventoryItemId}`
+        ? `https://proj3-t62-backenddeploy-production.up.railway.app/inventory/${item.inventoryItemId}`
         : 'https://proj3-t62-backenddeploy-production.up.railway.app/inventory';
 
       const method = mode === 'edit' ? 'PATCH' : 'POST';
