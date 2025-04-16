@@ -50,7 +50,26 @@ Before Next Meeting:
 
 --------------------------------------------------------
 
+Scrum Meeting 3 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Monday, April 14th, 2025
 
+Attendees: All
+
+Agenda:
+    - Determine what tasks are deploy-ready for sprint 2
+    - Fix google translate api top bar (ugly UI)
+
+Update Since Last Meeting:
+    - OAuth2 is in progress, very complicated so it will be deployed in sprint 3
+    - We will deploy cashier UI, kiosk UI, weather API, and google translate api for this sprint
+    - Another team (Luke and Sophia's team) showed us what to do to hide the ugly google translate bar from the api
+
+Before Next Meeting:
+    - Lohit to finish Manager Menu Customization UI
+    - David to begin Employee management UI
+    - Paul to finish OAuth2
+    - David to finish menu services API
 
 --------------------------------------------------------
 
