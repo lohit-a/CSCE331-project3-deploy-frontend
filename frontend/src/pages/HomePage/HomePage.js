@@ -53,7 +53,7 @@ function HomePage() {
 
   // Fetch menu items from API
   useEffect(() => {
-    fetch("https://proj3-t62-backenddeploy-production.up.railway.app/menu_items")
+    fetch("http://localhost:8081/menu_items")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Network response was not ok");
