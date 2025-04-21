@@ -1,14 +1,19 @@
+// src/pages/HomePage/HomePage.js
+
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import bobaImage from "./images/boba.png";
 
 function HomePage() {
+  const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [cart, setCart] = useState([]);
+  const [placing, setPlacing] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
   // Inject Google Translate widget script and style
@@ -29,8 +34,7 @@ function HomePage() {
       const gtScript = document.createElement("script");
       gtScript.id = "google-translate-script";
       gtScript.type = "text/javascript";
-      gtScript.src =
-        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       gtScript.async = true;
       gtScript.defer = true;
       document.body.appendChild(gtScript);
@@ -53,20 +57,15 @@ function HomePage() {
 
   // Fetch menu items from API
   useEffect(() => {
-    fetch("https://proj3-t62-backenddeploy-production.up.railway.app/menu_items")
+    fetch("http://localhost:8081/menu_items")
       .then((res) => {
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
-        }
+        if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
       })
       .then((data) => {
-        data.forEach((item, i) => {
-          if (!item.itemName) console.warn(`Missing item_name at index ${i}:`, item);
-        });
+        console.log("fetched menuItems:", data);
         setMenuItems(data);
-        const uniqueCats = [...new Set(data.map((item) => item.category))];
-        setCategories(uniqueCats);
+        setCategories([...new Set(data.map((i) => i.category))]);
         setLoading(false);
       })
       .catch((err) => {
@@ -75,63 +74,103 @@ function HomePage() {
       });
   }, []);
 
+  // Add to cart
   const handleAddToCart = (item) => {
-    setCart((prevCart) => {
-      const exist = prevCart.find((c) => c.menuItemId === item.menuItemId);
-      if (exist) {
-        return prevCart.map((c) =>
+    setCart((prev) => {
+      const exists = prev.find((c) => c.menuItemId === item.menuItemId);
+      if (exists) {
+        return prev.map((c) =>
           c.menuItemId === item.menuItemId
             ? { ...c, quantity: c.quantity + 1 }
             : c
         );
       }
-      return [...prevCart, { ...item, quantity: 1 }];
+      return [...prev, { ...item, quantity: 1 }];
     });
   };
 
-  const incrementItem = (id) => {
-    setCart((prevCart) =>
-      prevCart.map((item) =>
-        item.menuItemId === id ? { ...item, quantity: item.quantity + 1 } : item
+  // Quantity controls
+  const incrementItem = (id) =>
+    setCart((prev) =>
+      prev.map((c) =>
+        c.menuItemId === id ? { ...c, quantity: c.quantity + 1 } : c
       )
     );
-  };
 
-  const decrementItem = (id) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) => {
-          if (item.menuItemId === id) {
-            if (item.quantity > 1) return { ...item, quantity: item.quantity - 1 };
-            else return null;
-          }
-          return item;
-        })
+  const decrementItem = (id) =>
+    setCart((prev) =>
+      prev
+        .map((c) =>
+          c.menuItemId === id
+            ? c.quantity > 1
+              ? { ...c, quantity: c.quantity - 1 }
+              : null
+            : c
+        )
         .filter(Boolean)
     );
+
+  // Place order logic
+  const placeOrder = async () => {
+    if (cart.length === 0) return;
+    setPlacing(true);
+
+    const totalAmount = parseFloat(
+      cart.reduce((sum, c) => sum + c.price * c.quantity, 0).toFixed(2)
+    );
+
+    const orderPayload = {
+      cashierId: 1,        // replace with dynamic cashier ID as needed
+      totalAmount,
+      orderItems: cart.map((c) => ({
+        menuItemId: c.menuItemId,
+        quantity: c.quantity,
+        sugarPercentage: 100,  // default until you add UI controls
+        icePercentage: 100,    // default until you add UI controls
+        isBoba: true,          // default flags
+        isPopper: false,
+        isJelly: false,
+      })),
+    };
+
+    try {
+      const res = await fetch("http://localhost:8081/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderPayload),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const created = await res.json();
+      alert(`✅ Order #${created.orderId} placed! Total $${created.totalAmount}`);
+      setCart([]);
+    } catch (err) {
+      console.error("Place order failed:", err);
+      alert("❌ Could not place order. Try again.");
+    } finally {
+      setPlacing(false);
+    }
   };
 
   const filteredItems =
     selectedCategory === "All"
       ? menuItems
-      : menuItems.filter((item) => item.category === selectedCategory);
+      : menuItems.filter((i) => i.category === selectedCategory);
 
   return (
     <div className="page-container">
-      {/* Main content container arranged in a row */}
       <div className="homepage-container">
         {/* Center Section */}
         <div className="center-section">
-          {/* Google Translate Widget moved inline */}
           <div className="translate-box-inline">
             <label htmlFor="google_translate_element" style={{ fontWeight: "bold" }}>
               Select Language:
             </label>
-            <div id="google_translate_element" style={{ marginTop: "0.5rem" }}></div>
+            <div id="google_translate_element" style={{ marginTop: "0.5rem" }} />
           </div>
 
-          {loading && <p>Loading menu items...</p>}
+          {loading && <p>Loading menu items…</p>}
           {error && <p>Error: {error.message}</p>}
+
           {!loading && !error && (
             <>
               <div className="category-buttons">
@@ -169,19 +208,12 @@ function HomePage() {
           )}
         </div>
 
-        {/* Collapsible Options Panel */}
+        {/* Options Panel */}
         <div className={`options-panel ${isPanelOpen ? "open" : ""}`}>
-          <button
-            className="toggle-btn"
-            onClick={() => setIsPanelOpen(!isPanelOpen)}
-          >
+          <button onClick={() => setIsPanelOpen((o) => !o)}>
             {isPanelOpen ? ">" : "<"}
           </button>
-          {isPanelOpen && (
-            <div className="panel-content">
-              <h3>Future Features like chatbot and stuff</h3>
-            </div>
-          )}
+          {isPanelOpen && <div className="panel-content">…</div>}
         </div>
 
         {/* Cart Section */}
@@ -192,13 +224,22 @@ function HomePage() {
             <div key={c.menuItemId} className="cart-item">
               <span>{c.itemName.replace(/_/g, " ")}</span>
               <div className="quantity-controls">
-                <button onClick={() => decrementItem(c.menuItemId)}>-</button>
+                <button onClick={() => decrementItem(c.menuItemId)}>–</button>
                 <span>{c.quantity}</span>
                 <button onClick={() => incrementItem(c.menuItemId)}>+</button>
               </div>
             </div>
           ))}
-          {cart.length > 0 && <button className="checkout-btn">CHECKOUT</button>}
+
+          {cart.length > 0 && (
+            <button
+              className="checkout-btn"
+              onClick={placeOrder}
+              disabled={placing}
+            >
+              {placing ? "Placing…" : "Place Order"}
+            </button>
+          )}
         </div>
       </div>
     </div>
