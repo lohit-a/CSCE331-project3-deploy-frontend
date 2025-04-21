@@ -12,6 +12,8 @@ const UserPage = () => {
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
+
+  
   useEffect(() => {
     fetchUsers();
   }, [filter, page]);

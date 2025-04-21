@@ -8,6 +8,14 @@ import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
 
 function HomePage() {
+
+    const { user, loadingUser } = useContext(UserContext);
+
+
+    
+
+    const role = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
+
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -59,7 +67,10 @@ function HomePage() {
 
   // Fetch menu items from API
   useEffect(() => {
-    fetch("http://localhost:8081/menu_items")
+    fetch("http://localhost:8081/menu_items", {
+        method: 'GET',
+        credentials: 'include'
+      })
       .then((res) => {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
@@ -167,6 +178,7 @@ function HomePage() {
             <label htmlFor="google_translate_element" style={{ fontWeight: "bold" }}>
               Select Language:
             </label>
+            <p>Your role: <strong>{role || "unknown"}</strong></p>
             <div id="google_translate_element" style={{ marginTop: "0.5rem" }} />
           </div>
 

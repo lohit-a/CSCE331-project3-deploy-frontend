@@ -7,6 +7,7 @@ const RequireUser = ({ allowedRoles }) => {
 
     const userRole = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
 
+
     return (
         userRole && allowedRoles.includes(userRole)
             ? <Outlet />
