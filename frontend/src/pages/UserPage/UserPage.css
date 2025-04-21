@@ -1,0 +1,90 @@
+.user-page {
+  text-align: center;
+    background: linear-gradient(
+      to top,
+      rgb(95, 128, 196),
+      rgb(148, 173, 221),
+      rgb(173, 198, 243)
+    );
+    padding: 2rem;
+    margin: 0;
+
+
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.user-card {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info {
+  flex-grow: 1;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.user-role {
+  margin: 0;
+  color: #666;
+}
+
+.pagination {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-info {
+  font-weight: bold;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-add {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-filter {
+  background-color: #2196f3;
+  color: white;
+}
+
+.btn-edit {
+  background-color: #ffa726;
+  color: white;
+}

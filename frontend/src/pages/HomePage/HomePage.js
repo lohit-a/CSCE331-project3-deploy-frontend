@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import bobaImage from "./images/boba.png";
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserProvider';
 
 function HomePage() {
   const navigate = useNavigate();

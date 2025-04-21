@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './InventoryModal.css';
 import InputField from '../InputField/InputField';
+import { SERVER_URL } from "../../constant";
 
 const InventoryModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}) => {
   
@@ -46,8 +47,8 @@ const InventoryModal = ({handleSave, isOpen, setOpenModal, item = null, mode = '
         };
         const url =
       mode === 'edit'
-        ? `http://localhost:8081/inventory/${item.inventoryItemId}`
-        : 'http://localhost:8081/inventory';
+        ? SERVER_URL + `/inventory/${item.inventoryItemId}`
+        : SERVER_URL + '/inventory';
 
       const method = mode === 'edit' ? 'PATCH' : 'POST';
 
@@ -55,6 +56,8 @@ const InventoryModal = ({handleSave, isOpen, setOpenModal, item = null, mode = '
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated),
+      credentials: 'include'
+    
     })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to save item');
