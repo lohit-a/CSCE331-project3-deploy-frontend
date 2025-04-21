@@ -1,16 +1,19 @@
 import './HomePage.css';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserProvider';
 
 function HomePage() {
+    const { user, loading } = useContext(UserContext);
+
+    //if (loading) return <div className="home-page">Loading...</div>;
+
+    const role = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
+
     return (
         <div className="home-page">
-            <button onClick={() => {
-                window.location.href = "http://localhost:8081/oauth2/authorization/google";
-                }}>
-                Login with Google
-                </button>
+            <h1>Welcome to the Home Page!</h1>
+            <p>Your role: <strong>{role || "unknown"}</strong></p>
         </div>
-        
-            
     );
 }
 

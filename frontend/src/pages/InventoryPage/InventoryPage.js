@@ -56,7 +56,7 @@ function InventoryPage() {
     if (!confirmDelete) return;
   
     fetch(SERVER_URL + `/inventory/${item.inventoryItemId}`, {
-      method: 'DELETE',
+      method: 'DELETE', credentials: 'include' 
     })
       .then((res) => {
         if (!res.ok) {

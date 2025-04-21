@@ -1,38 +1,38 @@
-import {useState, useContext, useEffect} from 'react'
-import logo from './logo.svg';
+import { useState, useContext, useEffect } from 'react';
 import './App.css';
-import CashierPage from './pages/CashierPage/CashierPage';
+import UserPage from './pages/UserPage/UserPage';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-import {UserContext, UserProvider} from './contexts/UserContext'
+import LoginPage from './pages/LogInPage/LogInPage'; 
+import RequireUser from './components/RequireUser/RequireUser';
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
+import { UserContext } from './contexts/UserProvider';
+import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
 
 function AppContent() {
-  const {userRole} = useContext(UserContext)
-  const [showExtraButtons, setExtraButtons] = useState(true)
-  const [allowedRoutes, setAllowedRoutes] = useState([])
-
+  const { user, loading } = useContext(UserContext);
+  const [showExtraButtons, setExtraButtons] = useState(true);
+  
   const navigate = useNavigate();
+
+  const userRole = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase(); 
 
   const renderNavButtons = () => {
     if (!showExtraButtons) return <p className="muted-text">Extra buttons hidden</p>;
-    console.log(userRole)
     switch (userRole) {
       case "cashier":
         return (
           <>
             <button onClick={() => navigate("/")}>Order</button>
-            <button onClick={() => navigate("/cashierpage")}>Cashier</button>
-            <button onClick={() => alert("Settings Page")}>Cashier</button>
-          </>  
+            <button onClick={() => navigate("/userpage")}>Cashier</button>
+          </>
         );
       case "manager":
         return (
           <>
             <button onClick={() => navigate("/")}>Order</button>
-            <button onClick={() => navigate("/cashierpage")}>Cashier</button>
+            <button onClick={() => navigate("/userpage")}>Cashier</button>
             <button onClick={() => navigate("/inventory")}>Inventory</button>
-            <button onClick={() => alert("Manager Page")}>Manager</button>
           </>
         );
       case "customer":
@@ -47,66 +47,51 @@ function AppContent() {
     }
   };
 
-  const getRoutePermissions = () => {
-    if (!userRole ) return []
-    switch (userRole) {
-      case "cashier":
-        return [
-          {path: '/cashierpage', element: <CashierPage />},
-          {path: '/', element: <HomePage />}
-        ];
-      case "manager":
-        return [
-          {path: '/cashierpage', element: <CashierPage />},
-          {path: '/inventory', element: <InventoryPage />},
-          {path: '/', element: <HomePage />}
-        ];
-      case "customer":
-        return [
-          {path: '/', element: <HomePage />},
-          {path: '/inventory', element: <HomePage />},
-        ];
-      default:
-        return null;
-    }
-  }
+  
 
-  useEffect(() => {
-    const routes = getRoutePermissions();
-    setAllowedRoutes(routes);
-  }, [userRole])
+  
+
+  if (loading) return <div>Loading...</div>;
+  if (user?.error === "backend-offline") return <div>Backend is offline. Lohit messed up fr fr</div>;
 
   return (
     <div className="App">
       <div className="nav-bar">
-        {showExtraButtons ? (
-          <div className='nav-buttons'>
-            {renderNavButtons()}
-          </div>
-        ) : (<p>extra buttons false</p>)
-        }
-        <button 
-          onClick={() => setExtraButtons(!showExtraButtons)}
-        >
+        {showExtraButtons && (
+          <div className="nav-buttons">{renderNavButtons()}</div>
+        )}
+        <button onClick={() => setExtraButtons(!showExtraButtons)}>
           Show Extra Buttons
         </button>
       </div>
+
       <div className="body">
-        <Routes>
-          {allowedRoutes.map((route) => (
-            <Route path={route.path} element={route.element} />
-          ))}
-          <Route path="*" element={<HomePage />} />          
-        </Routes>
+      <Routes>
+  {/* Public route */}
+  <Route path="/login" element={<LoginPage />} />
+  <Route path="/unauthorized" element={<UnauthorizedPage />} />
+
+  {/* Home: all users */}
+  <Route element={<RequireUser allowedRoles={["cashier", "manager", "customer"]} />}>
+    <Route path="/" element={<HomePage />} />
+  </Route>
+
+  {/* Cashier and manager */}
+  <Route element={<RequireUser allowedRoles={["cashier", "manager"]} />}>
+    <Route path="/userpage" element={<UserPage />} />
+  </Route>
+
+  {/* Manager only */}
+  <Route element={<RequireUser allowedRoles={["manager"]} />}>
+    <Route path="/inventory" element={<InventoryPage />} />
+  </Route>
+
+  {/* Catch-all: redirect to login */}
+  <Route path="*" element={<Navigate to="/login" replace />} />
+</Routes>
       </div>
     </div>
   );
 }
 
-export default function App() {
-  return (
-    <UserProvider>
-      <AppContent />
-    </UserProvider>
-  ); 
-}
+export default AppContent;

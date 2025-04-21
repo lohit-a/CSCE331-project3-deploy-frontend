@@ -56,6 +56,8 @@ const InventoryModal = ({handleSave, isOpen, setOpenModal, item = null, mode = '
       method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updated),
+      credentials: 'include'
+    
     })
       .then((res) => {
         if (!res.ok) throw new Error('Failed to save item');
