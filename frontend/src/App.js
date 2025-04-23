@@ -61,12 +61,14 @@ function AppContent() {
       {/* <div className="banner">LoTree Tea</div> */}
       
       <div className="nav-bar">
+        
         {showExtraButtons && (
           <div className="nav-buttons">{renderNavButtons()}</div>
         )}
         <button onClick={() => setExtraButtons(!showExtraButtons)}>
           Show Extra Buttons
         </button>
+        <p>{userRole}</p>
         {/* Weather component added to the navigation bar */}
         <Weather />
       </div>
