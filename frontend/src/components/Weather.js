@@ -9,10 +9,8 @@ function Weather() {
   const lat = 30.615011;
   const lon = -96.342476;
 
-  const apiKey = WeatherApiKey;
-
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${WeatherApiKey}&units=metric`)
+    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${WeatherApiKey}&units=imperial`)
       .then(response => {
         if (!response.ok) {
           throw new Error("Failed to fetch weather data.");
@@ -21,7 +19,7 @@ function Weather() {
       })
       .then(data => setWeatherData(data))
       .catch(error => console.error("Error fetching weather data:", error));
-  }, [apiKey, lat, lon]);
+  }, [WeatherApiKey, lat, lon]);
 
   if (!weatherData) {
     return <div className="weather">Loading weather…</div>;
@@ -32,7 +30,7 @@ function Weather() {
 
   return (
     <div className="weather">
-      <p><strong>Current Temp:</strong> {temp}°C</p>
+      <p><strong>Current Temp:</strong> {temp}°F</p>
       <p><strong>Condition:</strong> {description}</p>
     </div>
   );
