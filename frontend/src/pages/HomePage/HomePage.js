@@ -9,12 +9,9 @@ import { UserContext } from '../../contexts/UserProvider';
 
 function HomePage() {
 
-    const { user, loadingUser } = useContext(UserContext);
+  const { user, loadingUser } = useContext(UserContext);
 
-
-    
-
-    const role = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
+  const role = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
 
   const navigate = useNavigate();
   const [menuItems, setMenuItems] = useState([]);
