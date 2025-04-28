@@ -88,7 +88,6 @@ body {
 
 /* now the grid fills remaining space, scrolls, and has bottom padding */
 .grid-container {
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-gap: 0.5rem;
@@ -96,12 +95,15 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   overflow-y: auto;
-  padding-bottom: 4rem;  /* ensure last row isn’t cut off */
+  padding-bottom: 4rem;
+  justify-content: center;        /* center the whole grid if there’s extra space */
 }
+
 
 .grid-item {
   background: #fff;
   border-radius: 8px;
+  height: fit-content;
   padding: 1rem;
   text-align: center;
   cursor: pointer;
