@@ -3,9 +3,9 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import fruitBoba from "./images/Fruit.png";
-import milkBoba from "./images/Milk.png";
-import brewedBoba from "./images/Brewed.png";
+import fruitBoba from "./images/fruit.png";
+import milkBoba from "./images/milk.png";
+import brewedBoba from "./images/brewed.png";
 import seasonalBoba from "./images/Seasonal.png";
 //import defaultBoba from "./images/Default.png"
 import { UserContext } from "../../contexts/UserProvider";

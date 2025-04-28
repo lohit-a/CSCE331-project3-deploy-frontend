@@ -5,6 +5,7 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
 iframe.goog-te-banner-frame {
   display: none !important;
   visibility: hidden;
@@ -20,6 +21,7 @@ body > .goog-te-spinner-pos {
 body {
   top: 0 !important;
 }
+
 .header {
   width: 100%;
   background-color: var(--backgroundColor, #f9f9f9);
@@ -38,23 +40,83 @@ body {
   border-radius: 4px;
   padding: 0.5rem;
 }
+
 .page-container {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
+
 .homepage-container {
   display: flex;
   flex: 1;
   background-color: var(--backgroundColor, #f9f9f9);
   overflow: hidden;
 }
+
+/* make center a column flex so grid can flex-grow */
 .center-section {
   flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: 1rem;
-  overflow-y: auto;
 }
+
+/* keep category buttons fixed, let only the grid scroll */
+.category-buttons {
+  display: flex;
+  gap: 0.5rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+  padding-top: 1rem;
+}
+.category-buttons button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+.category-buttons button.active {
+  background-color: var(--buttonSelect, #555);
+  color: #fff;
+}
+
+/* now the grid fills remaining space, scrolls, and has bottom padding */
+.grid-container {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 0.5rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding-bottom: 4rem;  /* ensure last row isn’t cut off */
+}
+
+.grid-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.grid-item:hover {
+  transform: scale(1.02);
+}
+.grid-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
 .options-panel {
   width: 30px;
   background-color: #ddd;
@@ -81,6 +143,7 @@ body {
   margin-top: 3rem;
   padding: 1rem;
 }
+
 .cart-section {
   width: 15rem;
   min-width: 15rem;
@@ -89,52 +152,6 @@ body {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-}
-.category-buttons {
-  display: flex;
-  gap: 0.5rem;
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto 2rem;
-  padding-top: 1rem;
-}
-.category-buttons button {
-  flex: 1;
-  padding: 0.5rem 1rem;
-  border: none;
-  background: #ccc;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: transform 0.2s;
-}
-.category-buttons button.active {
-  background-color: var(--buttonSelect, #555);
-  color: #fff;
-}
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 0.5rem;
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.grid-item {
-  background: #fff;
-  border-radius: 8px;
-  padding: 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.1s;
-}
-.grid-item:hover {
-  transform: scale(1.02);
-}
-.grid-item img {
-  width: 100%;
-  max-height: auto;
-  object-fit: contain;
-  margin-bottom: 0.5rem;
 }
 .cart-section h2 {
   margin-bottom: 1rem;
@@ -166,7 +183,6 @@ body {
 }
 .checkout-btn {
   margin-top: auto;
-  margin-top: 0.5rem;
   padding: 0.5rem 1rem;
   background: var(--darkNav, #333);
   color: #fff;

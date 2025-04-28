@@ -24,8 +24,17 @@ function AppContent() {
       case "cashier":
         return (
           <>
-            <button onClick={() => navigate("/")}>Order</button>
-            <button onClick={() => navigate("/userpage")}>Cashier</button>
+        <button onClick={() => navigate("/")}>Order</button>
+        <button onClick={() => navigate("/userpage")}>Cashier</button>
+          </>
+        );
+      case "manager":
+        return (
+          <>
+        <button onClick={() => navigate("/")}>Order</button>
+        <button onClick={() => navigate("/userpage")}>Cashier</button>
+        <button onClick={() => navigate("/inventory")}>Inventory</button>
+        <button onClick={() => navigate("/managerreports")}>Manager Reports</button>
           </>
         );
       case "manager":
