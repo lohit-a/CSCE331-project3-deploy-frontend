@@ -29,7 +29,7 @@ function AppContent() {
         return (
           <>
             <button onClick={() => navigate("/#")}>Order</button>
-            <button onClick={() => navigate("/userpage")}>Cashier</button>
+            {/* <button onClick={() => navigate("/userpage")}>Cashier</button> */}
           </>
         );
       case "manager":
@@ -44,7 +44,7 @@ function AppContent() {
         return (
           <>
             <button onClick={() => navigate("/#")}>Order</button>
-            <button onClick={() => alert("View Orders")}>My Orders</button>
+            {/* <button onClick={() => alert("View Orders")}>My Orders</button> */}
           </>
         );
       default:
