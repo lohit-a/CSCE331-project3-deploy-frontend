@@ -7,8 +7,9 @@ import fruitBoba from "./images/fruit.png";
 import milkBoba from "./images/milk.png";
 import brewedBoba from "./images/brewed.png";
 import seasonalBoba from "./images/Seasonal.png";
-//import defaultBoba from "./images/Default.png"
-import { UserContext } from "../../contexts/UserProvider";
+import { useContext } from 'react';
+import { UserContext } from '../../contexts/UserProvider';
+import { SERVER_URL } from "../../constant";
 
 function HomePage() {
   const { user, loadingUser } = useContext(UserContext);
@@ -79,10 +80,10 @@ function HomePage() {
 
   // Fetch menu items
   useEffect(() => {
-    fetch("http://localhost:8081/menu_items", {
-      method: "GET",
-      credentials: "include",
-    })
+    fetch(SERVER_URL + "/menu_items", {
+        method: 'GET',
+        credentials: 'include'
+      })
       .then((res) => {
         if (!res.ok) throw new Error("Network response was not ok");
         return res.json();
@@ -155,7 +156,7 @@ function HomePage() {
     };
 
     try {
-      const res = await fetch("http://localhost:8081/orders", {
+      const res = await fetch(SERVER_URL + "/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),

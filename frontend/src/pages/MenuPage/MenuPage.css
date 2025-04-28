@@ -1,4 +1,4 @@
-/* .inventory-page {
+.menu-page {
     text-align: center;
     background: linear-gradient(
       to top,
@@ -12,26 +12,9 @@
     width: 100%;
     display: flex;
     overflow: auto;
-} */
-
-.inventory-page {
-    text-align: center;
-    background: linear-gradient(
-      to top,
-      rgb(95, 128, 196),
-      rgb(148, 173, 221),
-      rgb(173, 198, 243)
-    );
-    padding: 0;
-    margin: 0;
-    height: 100vh; 
-    width: 100%;  
-    display: flex;
-    flex-direction: column; 
-    overflow: auto; 
 }
 
-  .inventory-container {
+  .menu-container {
     overflow: hidden;
     height: 100%;
     width: 100%;
@@ -44,7 +27,7 @@
   }
 
 
-  .inventory-header {
+  .menu-header {
     display: flex;
     align-items: center;  /* vertical centering */
     justify-content: center; /* or center/left/right */
@@ -52,21 +35,26 @@
     
   }
 
-  /* .inventory-body {
+  .menu-title {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto; /* push to right side */
+  }
+
+  .menu-body {
     height: 100%;
     padding: 0px;
     overflow-y: auto;
     flex: 1;
-  } */
-  
-  .inventory-body {
-      flex: 1;
-      overflow-x: auto; /* allow horizontal scrolling ONLY if needed */
-      overflow-y: auto; /* allow vertical scrolling */
-      padding: 0px 20px 20px 20px;
   }
 
-  .inventory-table {
+  .menu-table {
     height: 100%;
     width: 100%;
     border-collapse: separate;
@@ -79,15 +67,24 @@
     
   }
 
+  .components-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .components-list li {
+    margin-bottom: 4px;
+  }
 
-  .inventory-table td {
+
+  .menu-table td {
     border: 1px solid #ccc;
     
   }
   
 
 
-  .inventory-table th {
+  .menu-table th {
     background-color: #e2e2e2;
     text-align: center;
     position: sticky;
@@ -100,35 +97,20 @@
     
   }
   
-  .inventory-table th:first-child { /*mimics border-collapse on table*/
+  .menu-table th:first-child { /*mimics border-collapse on table*/
     border-left: 2px solid #4d4d4d;
   }
   
-  .inventory-table th:last-child {
+  .menu-table th:last-child {
     border-right: 2px solid #4d4d4d;
   }
 
-  .inventory-table td:last-child {
+  .menu-table td:last-child {
     border-right: 1px solid #4d4d4d;
     border-top: 1px solid #4d4d4d;
     border-bottom: 1px solid #4d4d4d;
     border-left: 1px solid #4d4d4d;
     background-color: #e2e2e2;
-  }
-
-
-
-  /* Row colors */
-  .red-row {
-    background-color: #f44336; /* Light red */
-  }
-
-  .yellow-row {
-    background-color: #faf1a2; /* Light yellow */
-  }
-
-  .green-row {
-    background-color: #4caf50; /* Light green */
   }
 
   input[type="number"] {
@@ -178,22 +160,3 @@
   .btn-delete:hover {
     background-color: #d32f2f;
   }
-
-.button-group {
-  display: flex;
-  gap: 1rem;
-  margin-left: auto; /* push to right side */
-}
-
-.inventory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-}
-
-.inventory-title {
-  flex-grow: 1;
-  text-align: center;
-  margin: 0;
-}
