@@ -3,12 +3,14 @@ import './App.css';
 import UserPage from './pages/UserPage/UserPage';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
+import MenuPage from './pages/MenuPage/MenuPage';
 import LoginPage from './pages/LogInPage/LogInPage'; 
 import RequireUser from './components/RequireUser/RequireUser';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { UserContext } from './contexts/UserProvider';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
 import Weather from './components/Weather'; // Import the Weather component
+import { SERVER_URL } from './constant';
 
 function AppContent() {
   const { user, loading } = useContext(UserContext);
@@ -36,8 +38,9 @@ function AppContent() {
         return (
           <>
             <button onClick={() => navigate("/#")}>Order</button>
-            <button onClick={() => navigate("/userpage")}>Cashier</button>
+            <button onClick={() => navigate("/userpage")}>Cashiers</button>
             <button onClick={() => navigate("/inventory")}>Inventory</button>
+            <button onClick={() => navigate("/menu_items")}>Menu Customization</button>
           </>
         );
       case "customer":
@@ -80,14 +83,14 @@ function AppContent() {
           <div style={{ marginTop: "auto" }} className="nav-buttons">
             {userName === "Guest" ? (
               <button onClick={() => {
-                window.location.href = "http://localhost:8081/oauth2/authorization/google";
+                window.location.href = SERVER_URL + "/oauth2/authorization/google";
               }}>
                 Login with Google
               </button>
             ) : (
               <button onClick={async () => {
                 try {
-                  await fetch("http://localhost:8081/api/logout", {
+                  await fetch(SERVER_URL + "/api/logout", {
                     method: "POST",
                     credentials: "include"
                   });
@@ -122,6 +125,10 @@ function AppContent() {
   {/* Manager only */}
   <Route element={<RequireUser allowedRoles={["manager"]} />}>
     <Route path="/inventory" element={<InventoryPage />} />
+  </Route>
+
+  <Route element={<RequireUser allowedRoles={["manager"]} />}>
+    <Route path="/menu_items" element={<MenuPage />} />
   </Route>
 
   {/* Catch-all: redirect to login */}
