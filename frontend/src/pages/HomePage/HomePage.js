@@ -6,6 +6,7 @@ import "./HomePage.css";
 import bobaImage from "./images/boba.png";
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
+import { SERVER_URL } from "../../constant";
 
 function HomePage() {
 
@@ -64,7 +65,7 @@ function HomePage() {
 
   // Fetch menu items from API
   useEffect(() => {
-    fetch("http://localhost:8081/menu_items", {
+    fetch(SERVER_URL + "/menu_items", {
         method: 'GET',
         credentials: 'include'
       })
@@ -144,7 +145,7 @@ function HomePage() {
     };
 
     try {
-      const res = await fetch("http://localhost:8081/orders", {
+      const res = await fetch(SERVER_URL + "/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),
