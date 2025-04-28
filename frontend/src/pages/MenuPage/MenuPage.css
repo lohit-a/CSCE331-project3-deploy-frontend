@@ -35,6 +35,18 @@
     
   }
 
+  .menu-title {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto; /* push to right side */
+  }
+
   .menu-body {
     height: 100%;
     padding: 0px;
@@ -53,6 +65,15 @@
     border-radius: 12px;
     
     
+  }
+
+  .components-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  .components-list li {
+    margin-bottom: 4px;
   }
 
 
