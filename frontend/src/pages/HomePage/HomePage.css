@@ -1,1 +1,201 @@
-html,body{height:100%;margin:0;padding:0;overflow:hidden;}iframe.goog-te-banner-frame{display:none!important;visibility:hidden;}html{margin-top:0!important;}.goog-te-banner-frame.skiptranslate,.goog-te-gadget-icon,body>.goog-te-spinner-pos{display:none!important;}body{top:0!important;}.header{width:100%;background-color:var(--backgroundColor,#f9f9f9);padding:.5rem 1rem;box-shadow:0 1px 3px rgba(0,0,0,.1);display:flex;justify-content:flex-end;position:relative;}.translate-box{position:absolute;top:1rem;right:1rem;background:#fff;border:1px solid #ddd;border-radius:4px;padding:.5rem;}.page-container{display:flex;flex-direction:column;height:100%;overflow:hidden;}.homepage-container{display:flex;flex:1;background-color:var(--backgroundColor,#f9f9f9);overflow:hidden;}.center-section{flex:1;padding:1rem;overflow-y:auto;}.options-panel{width:30px;background-color:#ddd;border-left:1px solid #aaa;transition:width .3s ease;position:relative;overflow-y:auto;}.options-panel.open{width:200px;}.options-panel button{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);background:#bbb;border:none;cursor:pointer;padding:.5rem 1rem;border-radius:4px 0 0 4px;}.options-panel .panel-content{margin-top:3rem;padding:1rem;}.cart-section{width:15rem;min-width:15rem;background-color:#ccc;padding:1rem;display:flex;flex-direction:column;overflow-y:auto;}.category-buttons{display:flex;gap:.5rem;width:90%;max-width:1200px;margin:0 auto 2rem;padding-top:1rem;}.category-buttons button{flex:1;padding:.5rem 1rem;border:none;background:#ccc;cursor:pointer;border-radius:4px;transition:transform .2s;}.category-buttons button.active{background-color:var(--buttonSelect,#555);color:#fff;}.grid-container{display:grid;grid-template-columns:repeat(5,1fr);grid-gap:.5rem;width:90%;max-width:1200px;margin:0 auto;}.grid-item{background:#fff;border-radius:8px;padding:1rem;text-align:center;cursor:pointer;transition:transform .1s;}.grid-item:hover{transform:scale(1.02);}.grid-item img{width:100%;max-height:120px;object-fit:cover;margin-bottom:.5rem;}.cart-section h2{margin-bottom:1rem;}.cart-item{display:flex;justify-content:space-between;margin-bottom:.5rem;}.quantity-controls{display:flex;align-items:center;gap:.5rem;}.quantity-controls button{width:2rem;height:2rem;border:1px solid #ccc;border-radius:50%;background:#fff;font-size:1rem;font-weight:bold;line-height:1;cursor:pointer;transition:background .2s,transform .2s;}.quantity-controls button:hover{background:#eee;}.checkout-btn{margin-top:auto;margin-top:.5rem;padding:.5rem 1rem;background:var(--darkNav,#333);color:#fff;border:none;border-radius:4px;cursor:pointer;transition:background .2s,transform .2s;}.checkout-btn:hover{background:#24468e;}button:hover{transform:scale(1.05);}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden;
+}
+html {
+  margin-top: 0 !important;
+}
+.goog-te-banner-frame.skiptranslate,
+.goog-te-gadget-icon,
+body > .goog-te-spinner-pos {
+  display: none !important;
+}
+body {
+  top: 0 !important;
+}
+
+.header {
+  width: 100%;
+  background-color: var(--backgroundColor, #f9f9f9);
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+.translate-box {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.homepage-container {
+  display: flex;
+  flex: 1;
+  background-color: var(--backgroundColor, #f9f9f9);
+  overflow: hidden;
+}
+
+/* make center a column flex so grid can flex-grow */
+.center-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+}
+
+/* keep category buttons fixed, let only the grid scroll */
+.category-buttons {
+  display: flex;
+  gap: 0.5rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto 1rem;
+  padding-top: 1rem;
+}
+.category-buttons button {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  background: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: transform 0.2s;
+}
+.category-buttons button.active {
+  background-color: var(--buttonSelect, #555);
+  color: #fff;
+}
+
+/* now the grid fills remaining space, scrolls, and has bottom padding */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 0.5rem;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-y: auto;
+  padding-bottom: 4rem;
+  justify-content: center;        /* center the whole grid if there’s extra space */
+}
+
+
+.grid-item {
+  background: #fff;
+  border-radius: 8px;
+  height: fit-content;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.grid-item:hover {
+  transform: scale(1.02);
+}
+.grid-item img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+.options-panel {
+  width: 30px;
+  background-color: #ddd;
+  border-left: 1px solid #aaa;
+  transition: width 0.3s ease;
+  position: relative;
+  overflow-y: auto;
+}
+.options-panel.open {
+  width: 200px;
+}
+.options-panel button {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  background: #bbb;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 4px 0 0 4px;
+}
+.options-panel .panel-content {
+  margin-top: 3rem;
+  padding: 1rem;
+}
+
+.cart-section {
+  width: 15rem;
+  min-width: 15rem;
+  background-color: #ccc;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+.cart-section h2 {
+  margin-bottom: 1rem;
+}
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.quantity-controls button {
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.quantity-controls button:hover {
+  background: #eee;
+}
+.checkout-btn {
+  margin-top: auto;
+  padding: 0.5rem 1rem;
+  background: var(--darkNav, #333);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+.checkout-btn:hover {
+  background: #24468e;
+}
+button:hover {
+  transform: scale(1.05);
+}

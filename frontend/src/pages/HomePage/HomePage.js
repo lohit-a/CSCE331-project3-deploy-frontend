@@ -1,17 +1,18 @@
 // src/pages/HomePage/HomePage.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
-import bobaImage from "./images/boba.png";
+import fruitBoba from "./images/fruit.png";
+import milkBoba from "./images/milk.png";
+import brewedBoba from "./images/brewed.png";
+import seasonalBoba from "./images/Seasonal.png";
 import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
 import { SERVER_URL } from "../../constant";
 
 function HomePage() {
-
   const { user, loadingUser } = useContext(UserContext);
-
   const role = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
 
   const navigate = useNavigate();
@@ -24,7 +25,23 @@ function HomePage() {
   const [placing, setPlacing] = useState(false);
   const [isPanelOpen, setIsPanelOpen] = useState(false);
 
-  // Inject Google Translate widget script and style
+  // pick image based on category
+  const getImageForCategory = (category) => {
+    switch (category.toLowerCase()) {
+      case "seasonal":
+        return seasonalBoba;
+      case "milk":
+        return milkBoba;
+      case "fruit":
+        return fruitBoba;
+      case "brewed":
+        return brewedBoba;
+      default:
+        return milkBoba;
+    }
+  };
+
+  // Inject Google Translate widget
   useEffect(() => {
     if (!document.getElementById("google-translate-script")) {
       window.googleTranslateElementInit = () => {
@@ -32,22 +49,20 @@ function HomePage() {
           {
             pageLanguage: "en",
             includedLanguages: "en,es,fr,zh-CN,ar",
-            layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
+            layout:
+              window.google.translate.TranslateElement.InlineLayout.SIMPLE,
             autoDisplay: false,
           },
           "google_translate_element"
         );
       };
-
       const gtScript = document.createElement("script");
       gtScript.id = "google-translate-script";
-      gtScript.type = "text/javascript";
-      gtScript.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+      gtScript.src =
+        "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
       gtScript.async = true;
-      gtScript.defer = true;
       document.body.appendChild(gtScript);
     }
-
     if (!document.getElementById("google-translate-style")) {
       const style = document.createElement("style");
       style.id = "google-translate-style";
@@ -63,7 +78,7 @@ function HomePage() {
     }
   }, []);
 
-  // Fetch menu items from API
+  // Fetch menu items
   useEffect(() => {
     fetch(SERVER_URL + "/menu_items", {
         method: 'GET',
@@ -74,7 +89,6 @@ function HomePage() {
         return res.json();
       })
       .then((data) => {
-        console.log("fetched menuItems:", data);
         setMenuItems(data);
         setCategories([...new Set(data.map((i) => i.category))]);
         setLoading(false);
@@ -85,7 +99,7 @@ function HomePage() {
       });
   }, []);
 
-  // Add to cart
+  // Cart operations
   const handleAddToCart = (item) => {
     setCart((prev) => {
       const exists = prev.find((c) => c.menuItemId === item.menuItemId);
@@ -99,15 +113,12 @@ function HomePage() {
       return [...prev, { ...item, quantity: 1 }];
     });
   };
-
-  // Quantity controls
   const incrementItem = (id) =>
     setCart((prev) =>
       prev.map((c) =>
         c.menuItemId === id ? { ...c, quantity: c.quantity + 1 } : c
       )
     );
-
   const decrementItem = (id) =>
     setCart((prev) =>
       prev
@@ -121,7 +132,7 @@ function HomePage() {
         .filter(Boolean)
     );
 
-  // Place order logic
+  // Place order
   const placeOrder = async () => {
     if (cart.length === 0) return;
     setPlacing(true);
@@ -131,14 +142,14 @@ function HomePage() {
     );
 
     const orderPayload = {
-      cashierId: 1,        // replace with dynamic cashier ID as needed
+      cashierId: 1, // TODO: dynamic
       totalAmount,
       orderItems: cart.map((c) => ({
         menuItemId: c.menuItemId,
         quantity: c.quantity,
-        sugarPercentage: 100,  // default until you add UI controls
-        icePercentage: 100,    // default until you add UI controls
-        isBoba: true,          // default flags
+        sugarPercentage: 100,
+        icePercentage: 100,
+        isBoba: true,
         isPopper: false,
         isJelly: false,
       })),
@@ -152,7 +163,9 @@ function HomePage() {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const created = await res.json();
-      alert(`✅ Order #${created.orderId} placed! Total $${created.totalAmount}`);
+      alert(
+        `✅ Order #${created.orderId} placed! Total $${created.totalAmount}`
+      );
       setCart([]);
     } catch (err) {
       console.error("Place order failed:", err);
@@ -167,22 +180,30 @@ function HomePage() {
       ? menuItems
       : menuItems.filter((i) => i.category === selectedCategory);
 
+  // Compute cart total
+  const cartTotal = cart
+    .reduce((sum, c) => sum + c.price * c.quantity, 0)
+    .toFixed(2);
+
   return (
     <div className="page-container">
       <div className="homepage-container">
-        {/* Center Section */}
+        {/* Center */}
         <div className="center-section">
           <div className="translate-box-inline">
-            <label htmlFor="google_translate_element" style={{ fontWeight: "bold" }}>
-              Select Language:
+            <label htmlFor="google_translate_element">
+              <strong>Select Language:</strong>
             </label>
-            <p>Your role: <strong>{role || "unknown"}</strong></p>
-            <div id="google_translate_element" style={{ marginTop: "0.5rem" }} />
+            <p>
+              Your role: <strong>{role || "unknown"}</strong>
+            </p>
+            <div
+              id="google_translate_element"
+              style={{ marginTop: "0.5rem" }}
+            />
           </div>
-
           {loading && <p>Loading menu items…</p>}
           {error && <p>Error: {error.message}</p>}
-
           {!loading && !error && (
             <>
               <div className="category-buttons">
@@ -202,7 +223,6 @@ function HomePage() {
                   </button>
                 ))}
               </div>
-
               <div className="grid-container">
                 {filteredItems.map((item) => (
                   <div
@@ -210,7 +230,10 @@ function HomePage() {
                     className="grid-item"
                     onClick={() => handleAddToCart(item)}
                   >
-                    <img src={bobaImage} alt={item.itemName} />
+                    <img
+                      src={getImageForCategory(item.category)}
+                      alt={item.itemName}
+                    />
                     <p>{item.itemName.replace(/_/g, " ")}</p>
                     <p>${item.price.toFixed(2)}</p>
                   </div>
@@ -228,7 +251,7 @@ function HomePage() {
           {isPanelOpen && <div className="panel-content">…</div>}
         </div>
 
-        {/* Cart Section */}
+        {/* Cart */}
         <div className="cart-section">
           <h2>Cart</h2>
           {cart.length === 0 && <p>No items yet.</p>}
@@ -236,21 +259,31 @@ function HomePage() {
             <div key={c.menuItemId} className="cart-item">
               <span>{c.itemName.replace(/_/g, " ")}</span>
               <div className="quantity-controls">
-                <button onClick={() => decrementItem(c.menuItemId)}>–</button>
+                <button onClick={() => decrementItem(c.menuItemId)}>
+                  –
+                </button>
                 <span>{c.quantity}</span>
-                <button onClick={() => incrementItem(c.menuItemId)}>+</button>
+                <button onClick={() => incrementItem(c.menuItemId)}>
+                  +
+                </button>
               </div>
             </div>
           ))}
 
           {cart.length > 0 && (
-            <button
-              className="checkout-btn"
-              onClick={placeOrder}
-              disabled={placing}
-            >
-              {placing ? "Placing…" : "Place Order"}
-            </button>
+            <>
+              <div className="cart-total">
+                <span>Total:</span>
+                <span>${cartTotal}</span>
+              </div>
+              <button
+                className="checkout-btn"
+                onClick={placeOrder}
+                disabled={placing}
+              >
+                {placing ? "Placing…" : "Place Order"}
+              </button>
+            </>
           )}
         </div>
       </div>
