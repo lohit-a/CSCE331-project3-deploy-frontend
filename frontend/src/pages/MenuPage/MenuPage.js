@@ -9,20 +9,27 @@ import { SERVER_URL } from '../../constant';
 function MenuPage() {
   const [menu, setMenu] = useState([]);
   const [addQuantities, setAddQuantities] = useState({});
-//   const [inventoryItems, setInventoryItems] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [editItem, setEditItem] = useState();
   const [modalMode, setModalMode] = useState('add');
+  const [inventoryMap, setInventoryMap] = useState({});
 
-    // useEffect(() => {
-    //     fetch(`${SERVER_URL}/inventory`)
-    //         .then(res => res.json())
-    //         .then(data => {
-    //             console.log('Inventory items:', data);
-    //             setInventoryItems(data);
-    //         })
-    //         .catch(console.error);
-    // }, []);
+  useEffect(() => {
+    fetch(SERVER_URL + `/inventory`, {
+      method: 'GET',
+      credentials: 'include'
+    })
+      .then(res => res.json())
+      .then(items => {
+        const map = {};
+        items.forEach(inv => {
+          map[inv.inventoryItemId] = inv.itemName;
+        });
+        setInventoryMap(map);
+      })
+      .catch(err => console.error("Error loading inventory:", err));
+  }, []);
+
 
   useEffect(() => {
     fetchMenu();
@@ -30,13 +37,16 @@ function MenuPage() {
 
   const fetchMenu = async () => {
     try {
-        const response = await fetch(`${SERVER_URL}/menu_items`); // https://proj3-t62-backenddeploy-production.up.railway.app/
+        const response = await fetch(SERVER_URL + `/menu_items`, {
+                                      method: 'GET',
+                                      credentials: 'include'
+                                    })
         const data = await response.json();
         setMenu(data);
     } catch (error) {
         console.error('Error fetching menu:', error);
     }
-};
+  };
 
   const handleInputChange = (itemName, event) => {
     setAddQuantities((prev) => ({
@@ -51,8 +61,10 @@ function MenuPage() {
     const confirmDelete = window.confirm(`Are you sure you want to delete "${item.itemName}"?`);
     if (!confirmDelete) return;
   
+
     fetch(`${SERVER_URL}/menu_items/${item.menuItemId}`, {
       method: 'DELETE',
+      credentials: 'include'
     })
       .then((res) => {
         if (!res.ok) {
@@ -84,7 +96,19 @@ function MenuPage() {
     />
       <div className="menu-container">
         <div className='menu-header'>
-          <h1>Manage Menu</h1>
+          <h1 className="menu-title">Manage Menu</h1>
+          <div className='button-group'>
+            <button
+                className="btn btn-add"
+                onClick={() => {
+                  setEditItem(null);
+                  setModalMode('add');
+                  setOpenModal(true);
+                }}
+              >
+                Add Menu Item
+              </button>
+          </div>
         </div>
         <div className='menu-body'>
           <table className="menu-table">
@@ -94,7 +118,7 @@ function MenuPage() {
                 <th >Item Name</th>
                 <th>Category</th>
                 <th>Cost</th>
-                {/* <th>Components</th> */}
+                <th>Components</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -106,26 +130,26 @@ function MenuPage() {
                     <td>{item.itemName}</td>
                     <td>{item.category}</td>
                     <td>{item.price}</td>
-                    {/* <td>
-                        {item.components.map(comp => {
-                            // find the matching inventory item by its ID
-                            const inv = inventoryItems.find(
-                                i => i.inventoryItemId === comp.inventoryItemId
-                            );
+                    <td>
+                      {item.components && item.components.length > 0 ? (
+                        <ul className="components-list">
+                          {item.components.map(comp => {
+                            const name = inventoryMap[comp.inventoryItemId];
                             return (
-                                <div key={comp.id}>
-                                    {inv
-                                        ? inv.itemName         // show the real name
-                                        : comp.inventoryItemId // fallback to the ID if not found
-                                    } x {comp.quantity}
-                                </div>
+                              <li key={comp.id}>
+                                {name || `#${comp.inventoryItemId}`}: {comp.quantity}
+                              </li>
                             );
-                        })}
-                    </td> */}
+                          })}
+                        </ul>
+                        ) : (
+                        <em>—</em>
+                      )}
+                    </td>
                     
                     <td>
                         <div>
-                            <button
+                            {/* <button
                                 className="btn btn-add"
                                 onClick={() => {
                                 setEditItem(item);
@@ -134,7 +158,7 @@ function MenuPage() {
                                 }}
                             >
                                 Add
-                            </button>
+                            </button> */}
 
                             <button
                                 className="btn btn-edit"

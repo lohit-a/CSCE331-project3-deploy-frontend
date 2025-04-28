@@ -10,61 +10,30 @@ const MenuModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}
         itemName: '',
         category: '',
         price: '',
-        // components: [],
+        components: []
       });
 
-    // const [inventoryItems, setInventoryItems] = useState([]);
-    // useEffect(() => {
-    //     fetch(`${SERVER_URL}/inventory`)
-    //       .then(res => res.json())
-    //       .then(data => setInventoryItems(data))
-    //       .catch(console.error);
-    // }, []);
-
-    // const handleComponentChange = (index, field, value) => {
-    //     setFormData(prev => {
-    //         const newComponents = [...prev.components];
-    //         newComponents[index] = {
-    //         ...newComponents[index],
-    //         [field]: value,
-    //         };
-    //         return { ...prev, components: newComponents };
-    //     });
-    // };
-      
-    // const addComponent = () => {
-    //     setFormData(prev => ({
-    //         ...prev,
-    //         components: [...prev.components, { inventoryItemId: '', quantity: '' }],
-    //     }));
-    // };
-      
-    // const removeComponent = (index) => {
-    //     setFormData(prev => ({
-    //         ...prev,
-    //         components: prev.components.filter((_, i) => i !== index),
-    //     }));
-    // };
+    const [inventoryList, setInventoryList] = useState([]);
+    useEffect(() => {
+      fetch(`${SERVER_URL}/inventory`, {
+        method: 'GET',
+        credentials: 'include'
+      })
+        .then(res => res.json())
+        .then(data => setInventoryList(data))
+        .catch(console.error);
+    }, []);
 
     useEffect(() => {
       if (mode === 'edit' && item) {
         setFormData({
-            itemName: item.itemName,
-            category: item.category,
-            price: item.price,
-            // components: item.components.map(c => ({
-            //   inventoryItemId: c.getInventoryItemId(),
-            //   quantity: c.getQuantity(),
-            // })),
+          itemName: item.itemName,
+          category: item.category,
+          price: item.price,
+          components: item.components || []
         });
-      }
-      else{
-        setFormData({
-            itemName: '',
-            category: '',
-            price: '',
-            // components: [],
-        });
+      } else {
+        setFormData({ itemName: '', category: '', price: '', components: [] });
       }
     }, [item, mode]);
   
@@ -76,6 +45,31 @@ const MenuModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}
       }));
     };
 
+    const handleComponentChange = (index, field, value) => {
+      setFormData(prev => {
+        const comps = [...prev.components];
+        comps[index] = {
+          ...comps[index],
+          [field]: field === 'quantity' ? parseFloat(value) : parseInt(value, 10)
+        };
+        return { ...prev, components: comps };
+      });
+    };
+
+    const addComponent = () => {
+      setFormData(prev => ({
+        ...prev,
+        components: [...prev.components, { inventoryItemId: '', quantity: 1 }]
+      }));
+    };
+
+    const removeComponent = index => {
+      setFormData(prev => {
+        const comps = prev.components.filter((_, i) => i !== index);
+        return { ...prev, components: comps };
+      });
+    };
+
     const roundDec = (num) => parseFloat(parseFloat(num).toFixed(2));
     
     const handleSubmit = () => {
@@ -83,10 +77,10 @@ const MenuModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}
             itemName: formData.itemName,
             category: formData.category,
             price: roundDec(formData.price),
-            // components: formData.components.map(c => ({
-            //   inventoryItemId: parseInt(c.inventoryItemId, 10),
-            //   quantity: parseFloat(c.quantity),
-            // })),
+            components: formData.components.map(c => ({
+              inventoryItemId: c.inventoryItemId,
+              quantity: c.quantity
+            }))
         };
 
         const url =
@@ -96,20 +90,22 @@ const MenuModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}
 
       const method = mode === 'edit' ? 'PUT' : 'POST';
 
-    fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to save item');
-        return res.json();
+      fetch(url, {
+        method,                       
+        credentials: 'include',       
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       })
-      .then((data) => {
-        handleSave(data);
-        setOpenModal(false);
-      })
-      .catch(console.error);
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to save item');
+          return res.json();
+        })
+        .then(savedItem => {
+          // **Step 2**: call your handleSave(savedItem) callback here
+          handleSave(savedItem);
+          setOpenModal(false);
+        })
+        .catch(console.error);
     };
   
     if(!isOpen) return null;
@@ -144,30 +140,62 @@ const MenuModal = ({handleSave, isOpen, setOpenModal, item = null, mode = 'add'}
                     text="Price of Item"
                 />
 
-                {/* <h2>Components</h2>
-                {formData.components.map((comp, idx) => (
-                <div key={idx} className="component-row">
-                    <select
+
+
+                <div className='components-section'>
+                  <h4>Components</h4>
+                  {formData.components.map((comp, idx) => (
+                    <div key={idx} className='component-row'>
+                      <select
                         value={comp.inventoryItemId}
                         onChange={e => handleComponentChange(idx, 'inventoryItemId', e.target.value)}
-                    >
-                        <option value="">-- Select Ingredient --</option>
-                        {inventoryItems.map(item => (
-                            <option key={item.id} value={item.id}>{item.name}</option>
+                      >
+                        <option value=''>— choose —</option>
+                        {inventoryList.map(inv => (
+                          <option
+                            key={inv.inventoryItemId}
+                            value={inv.inventoryItemId}
+                          >
+                            {inv.itemName}
+                          </option>
                         ))}
-                    </select>
+                      </select>
 
-                    <InputField
-                        itemName={`quantity-${idx}`}
-                        type="number"
+                      <input
+                        type='number'
+                        min='1'
                         value={comp.quantity}
                         onChange={e => handleComponentChange(idx, 'quantity', e.target.value)}
-                        text="Quantity"
-                    />
-                    <button type="button" onClick={() => removeComponent(idx)}>Remove</button>
+                        style={{ width: '60px', marginLeft: '8px' }}
+                      />
+
+                      <button
+                        type='button'
+                        onClick={() => removeComponent(idx)}
+                        style={{
+                          marginLeft: '2px',
+                          padding: '2px 6px',
+                          height: '24px',
+                          lineHeight: '1',
+                          fontSize: '0.8rem'
+                        }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+
+                  <button
+                    type='button'
+                    onClick={addComponent}
+                    style={{ marginTop: '8px' }}
+                  >
+                    Add Component
+                  </button>
                 </div>
-                ))}
-                <button type="button" onClick={addComponent}>Add Component</button> */}
+
+
+
             </div>
             <button onClick={handleSubmit}>SAVE</button>
             <button onClick={() => {setFormData(item);setOpenModal(false); }}>
