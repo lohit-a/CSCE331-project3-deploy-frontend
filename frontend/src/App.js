@@ -18,20 +18,24 @@ function AppContent() {
 
   const userRole = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase(); 
 
+  const userName = (user?.firstName === "" & user?.lastName === "") ? "Guest" : (user?.firstName + " " + user?.lastName);
+
+  const userRoleDisplay = typeof userRole == 'string' ? userRole.charAt(0).toUpperCase() + userRole.slice(1) : "Unknown"; // Capitalize the first letter of the role
+
   const renderNavButtons = () => {
     if (!showExtraButtons) return <p className="muted-text">Extra buttons hidden</p>;
     switch (userRole) {
       case "cashier":
         return (
           <>
-            <button onClick={() => navigate("/")}>Order</button>
+            <button onClick={() => navigate("/#")}>Order</button>
             <button onClick={() => navigate("/userpage")}>Cashier</button>
           </>
         );
       case "manager":
         return (
           <>
-            <button onClick={() => navigate("/")}>Order</button>
+            <button onClick={() => navigate("/#")}>Order</button>
             <button onClick={() => navigate("/userpage")}>Cashier</button>
             <button onClick={() => navigate("/inventory")}>Inventory</button>
           </>
@@ -39,7 +43,7 @@ function AppContent() {
       case "customer":
         return (
           <>
-            <button onClick={() => navigate("/")}>Order</button>
+            <button onClick={() => navigate("/#")}>Order</button>
             <button onClick={() => alert("View Orders")}>My Orders</button>
           </>
         );
@@ -61,18 +65,46 @@ function AppContent() {
       {/* <div className="banner">LoTree Tea</div> */}
       
       <div className="nav-bar">
+        
         {showExtraButtons && (
           <div className="nav-buttons">{renderNavButtons()}</div>
         )}
-        <button onClick={() => setExtraButtons(!showExtraButtons)}>
-          Show Extra Buttons
-        </button>
+        <br />
+        <p>{userName}</p>
+        <p></p>
+        <p class="role">{userRoleDisplay}</p>
         {/* Weather component added to the navigation bar */}
         <Weather />
+
+        {/* Login/Logout button */}
+          <div style={{ marginTop: "auto" }} className="nav-buttons">
+            {userName === "Guest" ? (
+              <button onClick={() => {
+                window.location.href = "http://localhost:8081/oauth2/authorization/google";
+              }}>
+                Login with Google
+              </button>
+            ) : (
+              <button onClick={async () => {
+                try {
+                  await fetch("http://localhost:8081/api/logout", {
+                    method: "POST",
+                    credentials: "include"
+                  });
+                  window.location.href = "/login";
+                } catch (err) {
+                  console.error("Logout failed:", err);
+                }
+              }}>
+                Logout
+              </button>
+            )}
+          </div>
       </div>
 
       <div className="body">
       <Routes>
+  
   {/* Public route */}
   <Route path="/login" element={<LoginPage />} />
   <Route path="/unauthorized" element={<UnauthorizedPage />} />

@@ -8,7 +8,7 @@ const UserModal = ({ handleSave, isOpen, setOpenModal, user = null, mode = 'add'
     lastName: '',
     email: '',
     role: 'ROLE_CUSTOMER',
-    source: 'LOCAL'
+    source: 'GOOGLE'
   });
 
   useEffect(() => {
@@ -20,7 +20,7 @@ const UserModal = ({ handleSave, isOpen, setOpenModal, user = null, mode = 'add'
         lastName: '',
         email: '',
         role: 'ROLE_CUSTOMER',
-        source: 'LOCAL'
+        source: 'GOOGLE'
       });
     }
   }, [user, mode]);
@@ -101,7 +101,7 @@ const UserModal = ({ handleSave, isOpen, setOpenModal, user = null, mode = 'add'
             <option value="ROLE_CUSTOMER">Customer</option>
           </select>
 
-          <label>Source</label>
+          {/* <label>Source</label>
           <select
             value={formData.source}
             onChange={e => onInputChange('source', e)}
@@ -110,7 +110,7 @@ const UserModal = ({ handleSave, isOpen, setOpenModal, user = null, mode = 'add'
             <option value="LOCAL">Local</option>
             <option value="GOOGLE">Google</option>
             <option value="GITHUB">GitHub</option>
-          </select>
+          </select> */}
         </div>
 
         <button onClick={handleSubmit}>SAVE</button>

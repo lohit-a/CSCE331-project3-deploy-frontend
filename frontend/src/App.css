@@ -1,5 +1,5 @@
 :root {
-  --sidebar-bg: #4f94d4;
+  --sidebar-bg: #5B9BD7;
   --button-bg: #ffffff;
   --button-hover: #f0f0f0;
   --button-active: #e0e0e0;
@@ -51,6 +51,7 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  justify-content: space-between;
   padding: 1.5rem 1rem;
 }
 
@@ -91,6 +92,20 @@
   background-color: var(--accent);
   color: white;
   border-color: var(--accent);
+}
+
+.nav-bar p {
+  color: black;
+  font-weight: 750;
+  font-size: 1rem;
+  margin: 0.10rem 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.nav-bar p.role {
+  font-size: 0.85rem;
+  margin-top: 0.3rem;
 }
 
 .App button {

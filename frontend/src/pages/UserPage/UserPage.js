@@ -11,8 +11,9 @@ const UserPage = () => {
   const [filter, setFilter] = useState('ALL');
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [user, setUser] = useState([]);
 
-
+  var filterDisplay = 'ALL';
   
   useEffect(() => {
     fetchUsers();
@@ -40,6 +41,30 @@ const UserPage = () => {
     fetchUsers();
   };
 
+  const handleDelete = (user) => {
+    const confirmDelete = window.confirm(`Are you sure you want to delete "${user.firstName} ${user.lastName}"?`);
+    if (!confirmDelete) return;
+
+    fetch(SERVER_URL + `/users/${user.userId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Failed to delete user');
+        }
+        // Correctly remove the deleted user from the users list
+        setUsers((prev) =>
+          prev.filter((u) => u.userId !== user.userId)
+        );
+      })
+      .catch((error) => {
+        console.error('Error deleting user:', error);
+        alert('Failed to delete user.');
+      });
+  };
+
+
   const toggleFilter = () => {
     setPage(0);
     setFilter(prev => {
@@ -53,6 +78,22 @@ const UserPage = () => {
     });
   };
 
+  const formatFilterDisplay = (filter) => {
+    switch (filter) {
+      case 'ALL':
+        return 'All';
+      case 'ROLE_MANAGER':
+        return 'Manager';
+      case 'ROLE_CUSTOMER':
+        return 'Customer';
+      case 'ROLE_CASHIER':
+        return 'Cashier';
+      default:
+        return filter;
+    }
+  };
+
+  // TODO: What should I do for long emails?
   return (
     <div className="user-page">
       <UserModal
@@ -80,7 +121,7 @@ const UserPage = () => {
             className="btn btn-filter"
             onClick={toggleFilter}
           >
-            Filter: {filter}
+            Filter Role: {formatFilterDisplay(filter)}
           </button>
         </div>
       </div>
@@ -90,18 +131,27 @@ const UserPage = () => {
           <div key={user.userId} className="user-card">
             <div className="user-info">
               <p className="user-name"><strong>{user.firstName} {user.lastName}</strong></p>
-              <p className="user-role">{user.role}</p>
+              <p className="user-role">{user.role.replace("ROLE_", "").toLowerCase().charAt(0).toUpperCase() + user.role.replace("ROLE_", "").toLowerCase().slice(1)}</p>
+              <p className="user-email">{user.email}</p>
             </div>
-            <button
-              className="btn btn-edit"
-              onClick={() => {
-                setEditUser(user);
-                setModalMode('edit');
-                setOpenModal(true);
-              }}
-            >
-              Edit
-            </button>
+            <div className="card-buttons">
+              <button
+                className="btn btn-edit"
+                onClick={() => {
+                  setEditUser(user);
+                  setModalMode('edit');
+                  setOpenModal(true);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                className="btn btn-delete"
+                onClick={() => handleDelete(user)}
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
