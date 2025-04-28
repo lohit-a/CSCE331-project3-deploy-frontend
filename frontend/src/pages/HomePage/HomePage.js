@@ -7,7 +7,6 @@ import fruitBoba from "./images/fruit.png";
 import milkBoba from "./images/milk.png";
 import brewedBoba from "./images/brewed.png";
 import seasonalBoba from "./images/Seasonal.png";
-import { useContext } from 'react';
 import { UserContext } from '../../contexts/UserProvider';
 import { SERVER_URL } from "../../constant";
 
