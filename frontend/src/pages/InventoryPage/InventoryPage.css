@@ -20,7 +20,7 @@
     width: 100%;
     font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
   }
 
   h1 {

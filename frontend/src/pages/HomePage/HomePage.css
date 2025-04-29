@@ -107,6 +107,7 @@ body {
   padding: 1rem;
   text-align: center;
   cursor: pointer;
+  scale: .95;
   transition: transform 0.1s;
 }
 .grid-item:hover {
