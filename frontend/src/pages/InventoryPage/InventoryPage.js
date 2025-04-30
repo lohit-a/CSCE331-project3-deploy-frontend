@@ -88,7 +88,19 @@ function InventoryPage() {
     />
       <div className="inventory-container">
         <div className='inventory-header'>
-          <h1>Manage Inventory</h1>
+          <h1 className="inventory-title">Manage Inventory</h1>
+          <div className="button-group">
+            <button
+              className="btn btn-add"
+              onClick={() => {
+                setEditItem(null);
+                setOpenModal(true);
+                setModalMode('add');
+              }}
+            >
+              Add New Item
+            </button>
+          </div>
         </div>
         <div className='inventory-body'>
           <table className="inventory-table">
@@ -126,7 +138,7 @@ function InventoryPage() {
                     
                     <td>
                     <div>
-                    <button
+                    {/* <button
                     className="btn btn-add"
                     onClick={() => {
                       setEditItem(item);
@@ -135,7 +147,7 @@ function InventoryPage() {
                     }}
                   >
                     Add
-                  </button>
+                  </button> */}
 
                   <button
                     className="btn btn-edit"

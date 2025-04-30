@@ -1,0 +1,47 @@
+--------------------------------------------------------
+SPRINT 3 SCRUM MEETINGS
+--------------------------------------------------------
+
+Scrum Meeting 1 for Lo-Tree-Tea
+Prepared by: Lohitaksh (Lohit) Allampalli
+Meeting Date: Monday, April 21st, 2025
+
+Attendees: All (Paul Hedman, Jack Williams, David Armijo, Lohit Allampalli)
+
+Agenda:
+    - Lohit merges all code from Paul's branch (finalized OAuth stuff) -- resolve merge conflicts
+
+Update Since Last Meeting:
+    - Paul made most of the Employee management UI because he needed to test OAuth
+    - Paul has finished OAuth2
+    - Lohit merged Paul's branch with main and resolved multiple merge conflicts -- mostly combined changes from both branches
+
+Before Next Meeting:
+    - Test fully merged code and fix bugs
+
+--------------------------------------------------------
+
+Scrum Meeting 2 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Wednesday, April 23rd, 2025
+
+Attendees: All
+
+Agenda:
+    - Paul explains his OAuth code and how the architecture has changed -- what we must do differently for future features
+    - Make a task list for all small tasks that need to get done (things to polish on top of existing main tasks)
+
+Update Since Last Meeting:
+    - Paul has fixed all OAuth bugs -- code works as intended
+    - We made a task list with many small UI fixes to be more accessbility friendly
+
+Before Next Meeting:
+    - Complete most of the UI fixes from the task list
+    - Lohit to finish Manager Menu Customization UI
+    - Lohit to finish Manager Reports Pages
+
+--------------------------------------------------------
+
+Scrum Meeting 3 for Lo-Tree-Tea
+
+--------------------------------------------------------
