@@ -48,6 +48,8 @@
   
   .ct-panel {
     padding: 1rem;
+    max-height: 75vh;
+    overflow-y: auto;
   }
   
   .mrp-form {

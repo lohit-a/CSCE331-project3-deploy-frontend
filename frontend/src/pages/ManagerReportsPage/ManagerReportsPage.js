@@ -30,29 +30,36 @@ export default function ManagerReportsPage() {
     try {
       if (active === 'Z-Report') {
         if (!zDate) throw new Error('Please select a date');
-        const res = await fetch(SERVER_URL + `/reports/z?date=${zDate}`);
+        const res = await fetch(`${SERVER_URL}/reports/z?date=${zDate}`,
+            {method: 'GET', credentials: 'include'}
+        );
         if (!res.ok) throw new Error(`Error ${res.status}`);
         const json = await res.json();
         setZReport(json);
       }
       else if (active === 'X-Report') {
         if (!xDate || !xTime) throw new Error('Please select date and time');
-        const res = await fetch(SERVER_URL + `/reports/x?date=${xDate}&time=${xTime}`);
+        const res = await fetch(`${SERVER_URL}/reports/x?date=${xDate}&time=${xTime}`,
+            {method: 'GET', credentials: 'include'}
+        );
         if (!res.ok) throw new Error(`Error ${res.status}`);
         const json = await res.json();
         setXReport(json);
       }
       else if (active === 'Product Usage') {
         if (!productStart || !productEnd) throw new Error('Please select start/end dates');
-        const res = await fetch(SERVER_URL + `/reports/product-usage?startDate=${productStart}&endDate=${productEnd}`);
+        const res = await fetch(`${SERVER_URL}/reports/product-usage?startDate=${productStart}&endDate=${productEnd}`, 
+            {method: 'GET', credentials: 'include'}
+        );
         if (!res.ok) throw new Error(`Error ${res.status}`);
         const json = await res.json();
         setProductUsageData(json);
       }
       else if (active === 'Sales Report') {
         if (!salesStart || !salesEnd) throw new Error('Please select start/end dates');
-        const res = await fetch(SERVER_URL + `/reports/sales?startDate=${salesStart}&endDate=${salesEnd}, 
-            {method: 'GET', credentials: 'include'}`); 
+        const res = await fetch(`${SERVER_URL}/reports/sales?startDate=${salesStart}&endDate=${salesEnd}`,
+            {method: 'GET', credentials: 'include'}
+        );
         if (!res.ok) throw new Error(`Error ${res.status}`);
         const json = await res.json();
         setSalesData(json);
