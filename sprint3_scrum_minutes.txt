@@ -43,5 +43,20 @@ Before Next Meeting:
 --------------------------------------------------------
 
 Scrum Meeting 3 for Lo-Tree-Tea
+Prepared by: Lohit Allampalli
+Meeting Date: Monday, April 28rd, 2025
+
+Agenda:
+    - Group retrospective meeting -- go over the agenda and the two questions
+    - Determine solutions to bugs in order page and menu management page
+
+Update Since Last Meeting:
+    - David and Jack went through the list of small tasks and finished them
+    - Lohit has finished the Menu Management UI page
+    - David is writing the API calls for reports page
+    - Jack will make UI page for reports
+    - Paul will work on Chatbot API for extended thematic functionality
+
+This is the final scrum meeting for the final sprint
 
 --------------------------------------------------------
