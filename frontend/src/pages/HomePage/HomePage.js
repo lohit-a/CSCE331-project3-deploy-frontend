@@ -174,10 +174,15 @@ function HomePage() {
     }
   };
 
+  // Filter and then sort by category
   const filteredItems =
     selectedCategory === "All"
       ? menuItems
       : menuItems.filter((i) => i.category === selectedCategory);
+
+  const sortedItems = [...filteredItems].sort((a, b) =>
+    a.category.localeCompare(b.category)
+  );
 
   // Compute cart total
   const cartTotal = cart
@@ -223,7 +228,7 @@ function HomePage() {
                 ))}
               </div>
               <div className="grid-container">
-                {filteredItems.map((item) => (
+                {sortedItems.map((item) => (
                   <div
                     key={item.menuItemId}
                     className="grid-item"

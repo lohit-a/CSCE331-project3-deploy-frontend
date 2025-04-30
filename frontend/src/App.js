@@ -3,6 +3,7 @@ import './App.css';
 import UserPage from './pages/UserPage/UserPage';
 import HomePage from './pages/HomePage/HomePage';
 import InventoryPage from './pages/InventoryPage/InventoryPage';
+import ManagerReportsPage from './pages/ManagerReportsPage/ManagerReportsPage';
 import MenuPage from './pages/MenuPage/MenuPage';
 import LoginPage from './pages/LogInPage/LogInPage'; 
 import RequireUser from './components/RequireUser/RequireUser';
@@ -15,10 +16,9 @@ import { SERVER_URL } from './constant';
 function AppContent() {
   const { user, loading } = useContext(UserContext);
   const [showExtraButtons, setExtraButtons] = useState(true);
-  
   const navigate = useNavigate();
 
-  const userRole = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase(); 
+  const userRole = user?.roles?.[0]?.replace("ROLE_", "").toLowerCase();
 
   const userName = (user?.firstName === "" & user?.lastName === "") ? "Guest" : (user?.firstName + " " + user?.lastName);
 
@@ -31,7 +31,6 @@ function AppContent() {
         return (
           <>
             <button onClick={() => navigate("/#")}>Order</button>
-            {/* <button onClick={() => navigate("/userpage")}>Cashier</button> */}
           </>
         );
       case "manager":
@@ -40,6 +39,7 @@ function AppContent() {
             <button onClick={() => navigate("/#")}>Order</button>
             <button onClick={() => navigate("/userpage")}>Cashiers</button>
             <button onClick={() => navigate("/inventory")}>Inventory</button>
+            <button onClick={() => navigate("/manager-reports")}>Manager Reports</button>
             <button onClick={() => navigate("/menu_items")}>Menu Customization</button>
           </>
         );
@@ -55,18 +55,11 @@ function AppContent() {
     }
   };
 
-  
-
-  
-
   if (loading) return <div>Loading...</div>;
   if (user?.error === "backend-offline") return <div>Backend is offline. Lohit messed up fr fr</div>;
 
   return (
     <div className="App">
-      {/* Banner moved to the top of the DOM */}
-      {/* <div className="banner">LoTree Tea</div> */}
-      
       <div className="nav-bar">
         
         {showExtraButtons && (
@@ -106,34 +99,35 @@ function AppContent() {
       </div>
 
       <div className="body">
-      <Routes>
-  
-  {/* Public route */}
-  <Route path="/login" element={<LoginPage />} />
-  <Route path="/unauthorized" element={<UnauthorizedPage />} />
+        <Routes>
+          {/* Public route */}
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/unauthorized" element={<UnauthorizedPage />} />
+            
+          {/* Home: all users */}
+          <Route element={<RequireUser allowedRoles={["cashier", "manager", "customer"]} />}>
+            <Route path="/" element={<HomePage />} />
+          </Route>
 
-  {/* Home: all users */}
-  <Route element={<RequireUser allowedRoles={["cashier", "manager", "customer"]} />}>
-    <Route path="/" element={<HomePage />} />
-  </Route>
+          {/* Cashier and manager */}
+          <Route element={<RequireUser allowedRoles={["cashier", "manager"]} />}>
+            <Route path="/userpage" element={<UserPage />} />
+          </Route>
 
-  {/* Cashier and manager */}
-  <Route element={<RequireUser allowedRoles={["cashier", "manager"]} />}>
-    <Route path="/userpage" element={<UserPage />} />
-  </Route>
+          {/* Manager only */}
+          <Route element={<RequireUser allowedRoles={["manager"]} />}>
+            <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/manager-reports" element={<ManagerReportsPage />} />
+            <Route path="/menu_items" element={<MenuPage />} />
+          </Route>
 
-  {/* Manager only */}
-  <Route element={<RequireUser allowedRoles={["manager"]} />}>
-    <Route path="/inventory" element={<InventoryPage />} />
-  </Route>
+//           <Route element={<RequireUser allowedRoles={["manager"]} />}>
+//           </Route>
 
-  <Route element={<RequireUser allowedRoles={["manager"]} />}>
-    <Route path="/menu_items" element={<MenuPage />} />
-  </Route>
+          {/* Catch-all: redirect to login */}
+          <Route path="*" element={<Navigate to="/login" replace />} />
+        </Routes>
 
-  {/* Catch-all: redirect to login */}
-  <Route path="*" element={<Navigate to="/login" replace />} />
-</Routes>
       </div>
     </div>
   );
