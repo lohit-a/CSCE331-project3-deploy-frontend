@@ -9,6 +9,8 @@ import brewedBoba from "./images/brewed.png";
 import seasonalBoba from "./images/Seasonal.png";
 import { UserContext } from '../../contexts/UserProvider';
 import { SERVER_URL } from "../../constant";
+import ChatBotOverlay from "../../components/ChatbotOverlay/ChatbotOverlay";
+
 
 function HomePage() {
   const { user, loadingUser } = useContext(UserContext);
@@ -247,13 +249,7 @@ function HomePage() {
           )}
         </div>
 
-        {/* Options Panel */}
-        <div className={`options-panel ${isPanelOpen ? "open" : ""}`}>
-          <button onClick={() => setIsPanelOpen((o) => !o)}>
-            {isPanelOpen ? ">" : "<"}
-          </button>
-          {isPanelOpen && <div className="panel-content">…</div>}
-        </div>
+        
 
         {/* Cart */}
         <div className="cart-section">
@@ -291,6 +287,7 @@ function HomePage() {
           )}
         </div>
       </div>
+      <ChatBotOverlay />
     </div>
   );
 }
