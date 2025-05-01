@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ChatbotOverlay.css";
+import { SERVER_URL } from "../../constant";
 
 const ChatbotOverlay = () => {
   const [input, setInput] = useState("");
@@ -15,7 +16,7 @@ const ChatbotOverlay = () => {
     setInput("");
 
     try {
-      const response = await fetch("http://localhost:8081/api/chat", {
+      const response = await fetch(SERVER_URL + "/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: input }),
