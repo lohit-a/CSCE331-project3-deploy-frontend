@@ -10,8 +10,10 @@ import RequireUser from './components/RequireUser/RequireUser';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import { UserContext } from './contexts/UserProvider';
 import UnauthorizedPage from './pages/UnauthorizedPage/UnauthorizedPage';
+import ChatPage from './pages/ChatPage/ChatPage';
 import Weather from './components/Weather'; // Import the Weather component
 import { SERVER_URL } from './constant';
+import ChatBotOverlay from "./components/ChatbotOverlay/ChatbotOverlay";
 
 function AppContent() {
   const { user, loading } = useContext(UserContext);
@@ -41,6 +43,7 @@ function AppContent() {
             <button onClick={() => navigate("/inventory")}>Inventory</button>
             <button onClick={() => navigate("/manager-reports")}>Manager Reports</button>
             <button onClick={() => navigate("/menu_items")}>Menu Customization</button>
+            <button onClick={() => navigate("/chat")}>Chat (if lonely)</button>
           </>
         );
       case "customer":
@@ -119,6 +122,7 @@ function AppContent() {
             <Route path="/inventory" element={<InventoryPage />} />
             <Route path="/manager-reports" element={<ManagerReportsPage />} />
             <Route path="/menu_items" element={<MenuPage />} />
+            <Route path="/chat" element={<ChatPage />} />
           </Route>
 
 //           <Route element={<RequireUser allowedRoles={["manager"]} />}>
