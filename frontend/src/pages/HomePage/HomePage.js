@@ -164,9 +164,14 @@ function HomePage() {
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const created = await res.json();
-      alert(
-        `✅ Order #${created.orderId} placed! Total $${created.totalAmount}`
-      );
+      if (created.orderDate.startsWith("ERROR")){
+        alert(`❌ Could not place order. ${created.orderDate}`);
+      }
+      else{
+        alert(
+          `✅ Order #${created.orderId} placed! Total $${created.totalAmount}`
+        );
+      }
       setCart([]);
     } catch (err) {
       console.error("Place order failed:", err);
